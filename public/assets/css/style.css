@@ -1,24 +1,33 @@
 body{
-	background-color: #0CAEA4;
+	background-color: #f5f6f7;
 }
 
 .jumbotron{
-	background-color: #472167;
+	background-color: #2E0854;
 	color: #FDFDFD;
 	text-align: center;
 	margin-bottom: 0px;
 }
 
+.jumbotron > .container {
+	background-color: rgba(0, 0, 0, 0.4);
+	width: 100%;
+}
+
 .col-md-4{
-	border: 1px solid black;
+	border: 1px solid #808080;
 	border-radius: 10px;
 	text-overflow: ellipsis;
-	background-color: #A8D0C4;
 	text-align: center;
+	background-color: white;
 }
 
 .description{
 	text-overflow: ellipsis;
 	overflow: hidden;
     white-space: nowrap;
+}
+
+footer{
+	text-align: center;
 }
