@@ -2,6 +2,10 @@ body{
 	background: #D7D4D4;
 }
 
+.container{
+	min-width: 270px;
+}
+
 .jumbotron{
 	color: #FDFDFD;
 	text-align: center;
