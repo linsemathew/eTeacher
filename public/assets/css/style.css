@@ -8,14 +8,13 @@ body{
 	margin-bottom: 0px;
 	background: url('../images/jumbo.jpg');
     background-size: 100% 100%;
+    border-bottom: 1px solid black;
 }
 
 .jumbotron > .container {
 	background-color: rgba(0, 0, 0, 0.5);
 	width: 100%;
 	text-shadow: 1px 1px #000;
-	border-bottom: 1px solid black;
-	border-top: 1px solid black;
 }
 
 .btn{
@@ -48,13 +47,16 @@ body{
 
 .new-tag{
 	position: absolute;
-    left: 4%;
-    top: 6%;
-    height: 20%;
-    width: 20%;
+    left: 0px;
+    top: 0px;
+    height: 25%;
+    width: 25%;
 }
 
 footer{
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top: 1px solid black;
 	text-align: center;
 	color: #000;
 }
