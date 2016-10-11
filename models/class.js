@@ -22,3 +22,7 @@ var Class = module.exports = mongoose.model('Class', classSchema);
 module.exports.getClasses = function(callback, limit){
 	Class.find(callback).sort({_id:-1}).limit(limit);
 }
+
+module.exports.getClassesById = function(id, callback){
+	Class.findById(id, callback);
+}

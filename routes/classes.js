@@ -12,4 +12,14 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+router.get('/:id/details', function(req, res, next) {
+	Class.getClassesById([req.params.id], function(err, name){
+		if (err){
+			res.send(error);
+		} else {
+			res.render('classes/details', {"class": name})
+		}
+	});
+});
+
 module.exports = router;
