@@ -22,7 +22,6 @@ router.post('/signup', function(req, res, next) {
 	req.checkBody('email', 'Email must be a valid email.').isEmail();
 	req.checkBody('password', 'Password is required').notEmpty();
 	req.checkBody('password2', 'Passwords must match').equals(req.body.password);
-
 	var errors = req.validationErrors();
 
 	if (errors) {
@@ -34,9 +33,34 @@ router.post('/signup', function(req, res, next) {
 			password: password,
 			password2: password2
 		}); 
-	else {
+	} else {
+		var newUser = new User({
+			email : email,
+			password : password,
+			type : type
+		});
+		var newStudent = new Student({
+			first_name : first_name,
+			last_name : last_name,
+			email : email,
+		});
+		var newInstructor = new Instructor({
+			first_name : first_name,
+			last_name : last_name,
+			email : email,
+		});
+		if (type == 'student'){
+			User.saveStudent(newUser, newStudent, function(err, user){
+				console.log("Student saved.")
+			});
+		} else if (type == 'instructor'){
+			User.saveInstructor(newUser, newInstructor, function(err, user){
+				console.log("Instructor saved.")
+			});
+		}
 
+		redirect('/')
 	}
-}
+})
 
 module.exports = router;

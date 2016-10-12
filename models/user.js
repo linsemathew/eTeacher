@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcryptjs')
 
 var userSchema = new Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true, bcrypt: true },
+  email: { type: String },
+  password: { type: String },
   type: { type: String }
 });
 
@@ -25,20 +25,24 @@ module.exports.getUserByEmail = function(email, callback){
 
 //Save a student
 module.exports.saveStudent = function(newUser, newStudent, callback){
-	bcrypt.hash(newUser.password, 10, function(err, hash){
-		if err throw err;
-		newUser.password = hash;
-		//Saves both a user and student
-		async.parallel([newUser.save, newStudent.save], callback);
-	})
+	bcrypt.genSalt(10, function(err, salt) {
+		bcrypt.hash(newUser.password, salt, function(err, hash){
+			if err throw err;
+			newUser.password = hash;
+			//Saves both a user and student
+			async.parallel([newUser.save, newStudent.save], callback);
+		})
+	}
 }
 
 //Save a instructor
 module.exports.saveInstructor = function(newUser, newInstructor, callback){
-	bcrypt.hash(newUser.password, 10, function(err, hash){
-		if err throw err;
-		newUser.password = hash;
-		//Saves both a user and instructor
-		async.parallel([newUser.save, newInstructor.save], callback);
-	})
+	bcrypt.genSalt(10, function(err, salt) {
+		bcrypt.hash(newUser.password, salt, function(err, hash){
+			if err throw err;
+			newUser.password = hash;
+			//Saves both a user and instructor
+			async.parallel([newUser.save, newInstructor.save], callback);
+		})
+	]
 }
