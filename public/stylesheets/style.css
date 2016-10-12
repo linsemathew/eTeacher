@@ -45,7 +45,24 @@ body{
     white-space: nowrap;
 }
 
+.form-title{
+	text-align: center;
+}
+
+#entire-signup-form{
+	width: 80%;
+	margin: auto;
+}
+
+.signup-form{
+	padding: 15px;
+}
+
 .new-classes{
+	text-align: center;
+}
+
+.submit-button{
 	text-align: center;
 }
 
