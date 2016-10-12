@@ -11,6 +11,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local'), Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+async = require('async');
 mongoose.connect('mongodb://localhost/eTeacher');
 var db = mongoose.connection;
 
