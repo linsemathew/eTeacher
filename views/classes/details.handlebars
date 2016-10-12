@@ -1,0 +1,35 @@
+<br>
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2>{{class.title}}</h1>
+		</div>
+			<h4 class="panel-body">
+				<p>Instructor: {{class.instructor}}</p>
+				<p>Description: {{class.description}}</p>
+				<br>
+				<p>{{class.lessons.length}} Lessons</p>
+			</h4>
+			<ul class="list-group">
+				{{#if class.lessons}}
+					<li class="list-group-item">
+						{{#each class.lessons}}
+					</li>
+						{{/each}}
+				{{/if}}
+			</ul>
+			<div class="panel-body">
+				{{#if user}}
+					<form id = "regForm" method="post" action="/students/classes/register">
+						<input type="hidden" name="student_id" value="{{user._id}}">
+						<input type="hidden" name="class_id" value="{{class._id}}">
+						<input type="hidden" name="class_title" value="{{class.title}}">
+						<input type="submit" class="button" value="Signup">
+					</form>
+				{{else}}
+					<p><em>Please login or register to signup for this class<em></p>
+				{{/if}}
+			</div>
+	</div>
+	<br><p><a class="btn btn-primary btn-lg" href="/classes" role="button">More classes &raquo;</a></p><br><br>
+</div>
