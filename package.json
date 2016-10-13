@@ -1,28 +1,29 @@
 {
   "name": "eTeacher",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "async": "*",
+    "async": "^0.9.0",
     "bcryptjs": "*",
-    "body-parser": "*",
-    "cookie-parser": "*",
-    "debug": "*",
-    "express": "*",
+    "body-parser": "~1.12.0",
+    "connect-flash": "*",
+    "cookie-parser": "~1.3.4",
+    "debug": "~2.1.1",
+    "express": "~4.12.0",
     "express-handlebars": "*",
+    "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
-    "jade": "*",
+    "jade": "~1.9.2",
     "mongodb": "*",
     "mongoose": "*",
-    "morgan": "*",
-    "multer": "*",
+    "morgan": "~1.5.1",
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",
-    "serve-favicon": "*"
+    "serve-favicon": "~2.2.0"
   }
 }
