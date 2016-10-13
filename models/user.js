@@ -3,9 +3,9 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcryptjs')
 
 var userSchema = new Schema({
-  email: { type: String },
-  password: { type: String },
-  type: { type: String }
+	email: { type: String },
+	password: { type: String },
+	type: { type: String }
 });
 
 var User = mongoose.model('User', userSchema);
@@ -14,13 +14,13 @@ module.exports = User;
 
 //Get a User by id
 module.exports.getUserById = function(id, callback){
-  User.findById(id, callback);
+	User.findById(id, callback);
 }
 
 //Get a User by email
 module.exports.getUserByEmail = function(email, callback){
-  var query = {email : email}
-  User.findOne(query, callback);
+	var query = {email : email}
+	User.findOne(query, callback);
 }
 
 //Save a student
@@ -45,4 +45,12 @@ module.exports.saveInstructor = function(newUser, newInstructor, callback){
 			async.parallel([newUser.save, newInstructor.save], callback);
 		})
 	})
+}
+
+//Checks if password matches.
+module.exports.comparePassword = function(enteredPassword, hash, callback){
+	bcrypt.compare(enteredPassword, hash, function(err, isMatch){
+		if(err) throw err;
+		callback(null, isMatch);
+	});
 }

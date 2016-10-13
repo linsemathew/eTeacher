@@ -6,8 +6,8 @@ var studentSchema = new Schema({
 	last_name: { type: String },
 	email: { type: String },
 	classes: [{
-      class_id: {type: [mongoose.Schema.Types.ObjectId]},
-      class_title: {type: String}
+		class_id: {type: [mongoose.Schema.Types.ObjectId]},
+		class_title: {type: String}
     }]
 });
 

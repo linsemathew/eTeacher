@@ -79,4 +79,48 @@ router.post('/signup', function(req, res, next){
 	}
 });
 
+passport.serializeUser(function(user, done) {
+	done(null, user._id);
+});
+
+
+passport.deserializeUser(function(id, done) {
+	User.getUserById(id, function (err, user) {
+		done(err, user);
+	});
+});
+
+
+router.post('/login',passport.authenticate('local',{
+	failureRedirect:'/users/login', 
+    failureFlash:'Wrong Username or Password'
+}), function(req, res){
+	var usertype = req.user.type;
+	res.redirect('/classes');
+});
+
+
+passport.use(new LocalStrategy({
+	usernameField: 'email'
+	},
+	function(email, password, done) {
+
+		User.getUserByEmail(email, function(err, user){
+			if (err) throw err;
+			if(!user){
+				return done(null, false, { message: 'Unregistered email' }); 
+			}
+
+			User.comparePassword(password, user.password, function(err, isMatch) {
+				if (err) return done(err);
+				if(isMatch) {
+					return done(null, user);
+				} else {
+					return done(null, false, { message: 'Invalid password' });
+				}
+			});
+		});
+  	}
+));
+
 module.exports = router;
