@@ -11,6 +11,10 @@ router.get('/signup', function(req, res, next) {
   res.render('users/signup');
 });
 
+router.get('/login', function(req, res, next){
+    res.render('users/login')
+});
+
 router.post('/signup', function(req, res, next){
 
 	var first_name     	= req.body.first_name;
