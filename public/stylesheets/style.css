@@ -66,6 +66,14 @@ body{
 	text-align: center;
 }
 
+.navbar-brand.title{
+	font-size: 25px;
+}
+
+.login-option{
+  font-size: large;
+}
+
 .new-tag{
 	position: absolute;
     left: 0px;
