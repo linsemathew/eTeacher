@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
 
 var User = require('../models/user');
 var Student = require('../models/student');
