@@ -75,6 +75,7 @@ app.use(function (req, res, next) {
 });
 
 
+//Get user type if they are logged in
 app.get('*', function(req, res, next) {
   res.locals.user = req.user || null;
   if(req.user){
@@ -82,8 +83,11 @@ app.get('*', function(req, res, next) {
 
     if(req.user.type == 'instructor'){
       res.locals.isInstructor = true;
+    } else if (req.user.type = 'student'){
+      res.locals.isStudent = true;
     } else {
       res.locals.isInstructor = false;
+      res.locals.isStudent = false;
     }
   }
   next();
