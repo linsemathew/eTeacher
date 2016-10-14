@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 		if (err){
 			res.send(error);
 		} else {
-			res.render('index', {"classes": classes})
+			res.render('index', {"classes": classes, title: "Home"})
 		}
 	}, 3);
 });
