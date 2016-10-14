@@ -6,7 +6,7 @@ Student = require('../models/student');
 User = require('../models/user');
 
 //Get Student's classes
-router.get('/classes', function(req, res, next) {
+router.get('/classes', ensureAuthenticated, function(req, res, next) {
 	Student.getStudentByEmail(req.user.email, function(err, student){
 		if (err){
 			res.send(error);
@@ -17,3 +17,11 @@ router.get('/classes', function(req, res, next) {
 });
 
 module.exports = router;
+
+function ensureAuthenticated(req, res, next){
+    if (req.isAuthenticated()){
+        return next;
+    } else {
+        res.redirect('/users/login');
+    }
+};
