@@ -1,21 +1,30 @@
 <div class="container">
 	<h3>{{student.first_name}}'s Classes</h3>
-	<table class="table table-striped">
+	<br>
+	<table class="table">
 		<thead>
 			<tr class="info">
 				<th>Class Name</th>
 				<th>Instructor</th>
-				<th></th>
+				<th>Lessons</th>
 			</tr>
 		</thead>
 		<tbody>
-			{{#each student.classes}}
+			{{#if student.classes}}
+				{{#each student.classes}}
+					<tr class="active">
+						<td>{{class_title}}</td>
+						<td>{{class_instructor}}</td>
+						<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
+					</tr>
+				{{/each}}
+			{{else}}
 				<tr class="active">
-					<td>{{class_title}}</td>
-					<td>{{class_instructor}}</td>
-					<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
+					<td>You aren't registered for any classes yet. <a href="/classes"><b>Click here</b></a> to explore.</td>
+					<td></td>
+					<td></td>
 				</tr>
-			{{/each}}
+			{{/if}}
 		</tbody>
 	</table>
 </div>
