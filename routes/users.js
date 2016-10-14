@@ -8,11 +8,19 @@ var Student = require('../models/student');
 var Instructor= require('../models/instructor');
 
 router.get('/signup', function(req, res, next) {
-  res.render('users/signup');
+	if (!req.user){
+		res.render('users/signup');
+	} else {
+		res.redirect('/classes');
+	} 
 });
 
 router.get('/login', function(req, res, next){
-    res.render('users/login')
+	if (!req.user){
+    	res.render('users/login');
+    } else {
+    	res.redirect('/classes');
+    } 
 });
 
 router.post('/signup', function(req, res, next){
@@ -93,7 +101,7 @@ passport.deserializeUser(function(id, done) {
 
 router.post('/login',passport.authenticate('local',{
 	failureRedirect:'/users/login', 
-    failureFlash:'Wrong Username or Password'
+    failureFlash: true
 }), function(req, res){
 	var usertype = req.user.type;
 	res.redirect('/classes');
