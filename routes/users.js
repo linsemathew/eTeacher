@@ -9,18 +9,10 @@ var Instructor= require('../models/instructor');
 
 router.get('/signup', function(req, res, next) {
 	if (!req.user){
-		res.render('users/signup');
+		res.render('users/signup', {title: "Signup"});
 	} else {
 		res.redirect('/classes');
 	} 
-});
-
-router.get('/login', function(req, res, next){
-	if (!req.user){
-    	res.render('users/login', {message: req.flash('error')});
-    } else {
-    	res.redirect('/classes');
-    } 
 });
 
 router.post('/signup', function(req, res, next){
@@ -52,7 +44,7 @@ router.post('/signup', function(req, res, next){
     		last_name: last_name,
     		email: email,
     		password: password,
-    		password2: password2
+    		password2: password2,
     	});
 	} else {
 		var newUser = new User({
@@ -87,6 +79,14 @@ router.post('/signup', function(req, res, next){
 	}
 });
 
+router.get('/login', function(req, res, next){
+	if (!req.user){
+    	res.render('users/login', {message: req.flash('error'), title: "Login"});
+    } else {
+    	res.redirect('/classes');
+    } 
+});
+
 passport.serializeUser(function(user, done) {
 	done(null, user._id);
 });
@@ -101,13 +101,13 @@ passport.deserializeUser(function(id, done) {
 
 router.post('/login',passport.authenticate('local-login', {
 	failureRedirect:'/users/login', 
-    failureFlash: true
+    failureFlash: "Incorrect email or password."
 }), function(req, res){
 	var usertype = req.user.type;
 	res.redirect('/classes');
 });
 
-
+//Check credentials
 passport.use('local-login', new LocalStrategy({
 	usernameField: 'email'
 	},
@@ -116,7 +116,7 @@ passport.use('local-login', new LocalStrategy({
 		User.getUserByEmail(email, function(err, user){
 			if (err) throw err;
 			if(!user){ 
-				return done(null, false, { message: 'Incorrect email or password.' });
+				return done(null, false);
 			}
 
 			User.comparePassword(password, user.password, function(err, isMatch) {
@@ -124,11 +124,28 @@ passport.use('local-login', new LocalStrategy({
 				if(isMatch) {
 					return done(null, user);
 				} else {
-					return done(null, false, { message: 'Incorrect email or password.' });
+					return done(null, false);
 				}
 			});
 		});
   	}
 ));
+
+//Logout user
+router.get('/logout', function(req, res){
+	req.session.destroy(function (err) {
+		console.log(err);
+	    res.redirect('/');
+	});
+});
+
+//Protect routes against users that aren't logged in.
+function ensureAuthenticated(req, res, next){
+	if (req.isAuthenticated()){
+		return next;
+	} else {
+		res.redirect('/users/login');
+	}
+};
 
 module.exports = router;
