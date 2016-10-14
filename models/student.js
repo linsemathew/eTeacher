@@ -12,5 +12,10 @@ var studentSchema = new Schema({
 });
 
 var Student = mongoose.model('Student', studentSchema);
-
 module.exports = Student;
+
+//Get a Student by email
+module.exports.getStudentByEmail = function(email, callback){
+	var query = {email : email}
+	Student.findOne(query, callback);
+}
