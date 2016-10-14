@@ -65,6 +65,7 @@ router.post('/signup', function(req, res, next){
             email: email,
         });
 
+        //Save as student
         if(type == 'student'){
             User.saveStudent(newUser, newStudent, function(err, user){
                 console.log('Student saved');
@@ -73,9 +74,10 @@ router.post('/signup', function(req, res, next){
                         console.log(err);
                     }
                 })
-                res.redirect('/students/classes');
+                res.redirect('/' +type+ 's/classes');
             })
         } else {
+            //Save as instructor
             User.saveInstructor(newUser, newInstructor, function(err, user){
                 console.log('Instructor saved');
                 req.login(newUser, function(err) {
@@ -84,7 +86,7 @@ router.post('/signup', function(req, res, next){
                     }
                 });
             })
-            res.redirect('/students/classes');
+            res.redirect('/' +type+ 's/classes');
         }
     }
 });
@@ -113,8 +115,8 @@ router.post('/login',passport.authenticate('local-login', {
     failureRedirect:'/users/login', 
     failureFlash: "Incorrect email or password."
 }), function(req, res){
-    var usertype = req.user.type;
-    res.redirect('/students/classes');
+    var userType = req.user.type;
+    res.redirect('/' +userType+ 's/classes');
 });
 
 
