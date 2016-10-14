@@ -74,6 +74,10 @@ body{
   font-size: large;
 }
 
+.alert{
+	text-align: center;
+}
+
 .new-tag{
 	position: absolute;
     left: 0px;

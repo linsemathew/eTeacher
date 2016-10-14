@@ -17,7 +17,7 @@ router.get('/signup', function(req, res, next) {
 
 router.get('/login', function(req, res, next){
 	if (!req.user){
-    	res.render('users/login');
+    	res.render('users/login', {message: req.flash('error')});
     } else {
     	res.redirect('/classes');
     } 
@@ -33,12 +33,12 @@ router.post('/signup', function(req, res, next){
 	var type            = req.body.type;
 
 	req.checkBody('first_name', 'First name is required.').notEmpty();
-	req.checkBody('first_name', 'Please enter a shorter first name.').len(1, 40);
+	req.checkBody('first_name', 'Please enter a shorter first name.').len(0, 40);
 	req.checkBody('last_name', 'Last name is required.').notEmpty();
-	req.checkBody('last_name', 'Please enter a shorter last name.').len(1, 40);
+	req.checkBody('last_name', 'Please enter a shorter last name.').len(0, 40);
 	req.checkBody('email', 'Email is required.').notEmpty();
 	req.checkBody('email', 'Email must be valid.').isEmail();
-	req.checkBody('email', 'Please enter a shorter email.').len(1, 40);
+	req.checkBody('email', 'Please enter a shorter email.').len(0, 40);
 	req.checkBody('password', 'Password is required.').notEmpty();
 	req.checkBody('password2', 'Passwords must match.').equals(req.body.password);
 	req.checkBody('password', 'Please choose a password between 6 to 50 characters.').len(6, 50);
@@ -99,7 +99,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 
-router.post('/login',passport.authenticate('local',{
+router.post('/login',passport.authenticate('local-login', {
 	failureRedirect:'/users/login', 
     failureFlash: true
 }), function(req, res){
@@ -108,15 +108,15 @@ router.post('/login',passport.authenticate('local',{
 });
 
 
-passport.use(new LocalStrategy({
+passport.use('local-login', new LocalStrategy({
 	usernameField: 'email'
 	},
 	function(email, password, done) {
 
 		User.getUserByEmail(email, function(err, user){
 			if (err) throw err;
-			if(!user){
-				return done(null, false, { message: 'Unregistered email' }); 
+			if(!user){ 
+				return done(null, false, { message: 'Incorrect email or password.' });
 			}
 
 			User.comparePassword(password, user.password, function(err, isMatch) {
@@ -124,7 +124,7 @@ passport.use(new LocalStrategy({
 				if(isMatch) {
 					return done(null, user);
 				} else {
-					return done(null, false, { message: 'Invalid password' });
+					return done(null, false, { message: 'Incorrect email or password.' });
 				}
 			});
 		});
