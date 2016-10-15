@@ -20,7 +20,7 @@
 			</ul>
 			<div class="panel-body">
 				{{#if user}}
-					<form id="regForm" method="post" action="/students/classes/register">
+					<form id="regForm" method="post" action="/{{type}}s/classes/register">
 						<input type="hidden" name="class_id" value="{{class._id}}">
 						<input type="hidden" name="class_title" value="{{class.title}}">
 						<input type="hidden" name="class_instructor" value="{{class.instructor}}">

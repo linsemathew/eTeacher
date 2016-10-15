@@ -85,8 +85,8 @@ router.post('/signup', function(req, res, next){
                         console.log(err);
                     }
                 });
+                res.redirect('/' +type+ 's/classes');
             })
-            res.redirect('/' +type+ 's/classes');
         }
     }
 });
