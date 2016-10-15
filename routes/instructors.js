@@ -32,6 +32,26 @@ router.post('/classes/register', function(req, res){
 	res.redirect('/instructors/classes')
 });
 
+//Add a new lesson
+router.get('/classes/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
+	res.render('instructors/newlesson', {"class_id": req.params.id})
+});
+
+//Add a new lesson
+router.post('/classes/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
+
+	var lesson = []
+	var lesson['class_id'] = req.params.id;
+	var lesson['lesson_title'] = req.body.lesson_title;
+	var lesson['lesson_body'] = req.body.lesson_body;
+
+	Class.addLesson(lesson, function(err, lesson){
+		console.log('Lesson was added.')
+	})
+
+	res.redirect('/instructors/classes')
+});
+
 function ensureAuthenticated(req, res, next){
     if (req.isAuthenticated()){
         return next();

@@ -5,7 +5,8 @@
 		<thead>
 			<tr class="info">
 				<th>Class Name</th>
-				<th>Lessons</th>
+				<th>View Lessons</th>
+				<th>Add Lesson</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -14,11 +15,13 @@
 					<tr class="active">
 						<td>{{class_title}}</td>
 						<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
+						<td><a href="/instructors/lessons/new">Add Lesson</a></td>
 					</tr>
 				{{/each}}
 			{{else}}
 				<tr class="active">
-					<td>You aren't teaching any classes yet. <a href="/classes"><b>Click here</b></a> to create a new one.</td>
+					<td>You aren't teaching any classes yet. <a href="/instructors/lessons/new"><b>Click here</b></a> to create a new one.</td>
+					<td></td>
 					<td></td>
 				</tr>
 			{{/if}}
