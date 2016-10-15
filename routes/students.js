@@ -16,12 +16,27 @@ router.get('/classes', ensureAuthenticated, function(req, res, next) {
 	});
 });
 
-module.exports = router;
+//Register Students for a class
+router.post('/classes/register', function(req, res){
+	classInfo = [];
+	classInfo['student_email'] = req.user.email; 
+	classInfo['class_id'] = req.body.class_id;
+	classInfo['class_title'] = req.body.class_title;
+	classInfo['class_instructor'] = req.body.class_instructor;
+
+	Student.registerForClass(classInfo, function(err, student){
+		if (err) throw err
+	});
+
+	res.redirect('/classes')
+});
 
 function ensureAuthenticated(req, res, next){
     if (req.isAuthenticated()){
-        return next;
+        return next();
     } else {
         res.redirect('/users/login');
     }
 };
+
+module.exports = router;

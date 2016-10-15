@@ -20,14 +20,14 @@
 			</ul>
 			<div class="panel-body">
 				{{#if user}}
-					<form id = "regForm" method="post" action="/students/classes/register">
-						<input type="hidden" name="student_id" value="{{user._id}}">
+					<form id="regForm" method="post" action="/students/classes/register">
 						<input type="hidden" name="class_id" value="{{class._id}}">
 						<input type="hidden" name="class_title" value="{{class.title}}">
-						<input type="submit" class="button" value="Signup">
+						<input type="hidden" name="class_instructor" value="{{class.instructor}}">
+						<input type="submit" class="button" value="Register">
 					</form>
 				{{else}}
-					<p><em>Please login or register to signup for this class<em></p>
+					<p><em>Please <a href="/users/login">login</a> or <a href="/users/signup">signup</a> to register for this class<em></p>
 				{{/if}}
 			</div>
 	</div>
