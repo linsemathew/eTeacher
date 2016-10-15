@@ -7,7 +7,8 @@ var studentSchema = new Schema({
 	email: { type: String },
 	classes: [{
 		class_id: {type: [mongoose.Schema.Types.ObjectId]},
-		class_title: {type: String}
+		class_title: {type: String},
+		class_instructor: {type: String}
     }]
 });
 
@@ -19,3 +20,22 @@ module.exports.getStudentByEmail = function(email, callback){
 	var query = {email : email}
 	Student.findOne(query, callback);
 }
+
+//Register a Student for a class
+module.exports.registerForClass = function(classInfo, callback){
+	student_email = classInfo['student_email'];
+    class_id = classInfo['class_id'];
+    class_title = classInfo['class_title'];
+    class_instructor = classInfo['class_instructor'];
+
+    //Only register for a class if they aren't registered already.
+	Student.findOneAndUpdate({'email': student_email, 
+		'classes.class_id':{$ne: class_id}},
+		{$addToSet: {classes: {class_id: class_id,class_title: class_title, class_instructor: class_instructor}}},
+		{safe: true},
+		callback
+    );
+}
+
+
+
