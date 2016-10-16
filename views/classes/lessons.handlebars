@@ -1,0 +1,28 @@
+<br>
+<div class="container">
+	<h3>{{class.title}} Lessons</h3>
+	<br>
+	<table class="table">
+		<thead>
+			<tr class="info">
+				<th>Lesson Title</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#if class.lessons}}
+				{{#each class.lessons}}
+					<tr class="active">
+						<td>{{class_title}}</td>
+						<td><a href="/classes/{{class_id}}/lessons/{{lesson._id}}">View Lessons</a></td>
+					</tr>
+				{{/each}}
+			{{else}}
+				<tr class="active">
+					<td>Don't have any lessons yet. <a href="/classes/new"><b>Click here</b></a> to add one.</td>
+					<td></td>
+				</tr>
+			{{/if}}
+		</tbody>
+	</table>
+</div>

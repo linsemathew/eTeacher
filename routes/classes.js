@@ -22,4 +22,14 @@ router.get('/:id/details', function(req, res, next) {
 	});
 });
 
+router.get('/:id/lessons/:lesson_id', function(req, res, next) {
+	Class.getClassesById([req.params.id], function(err, classLesson){
+		if (err){
+			res.send(error);
+		} else {
+			res.render('classes/lessons', {"class": classLesson})
+		}
+	});
+});
+
 module.exports = router;

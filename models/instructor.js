@@ -40,3 +40,13 @@ module.exports.registerForClass = function(classInfo, callback){
 		callback
     );
 }
+
+// module.exports.addNewClass = function(classInfo, callback){
+
+//     //Only register for a class if they aren't registered already.
+// 	Instructor.findOneAndUpdate({'email': instructor_email,
+// 		{$addToSet: {instructor_classes: {class_id: class_id,class_title: class_title, class_instructor: class_instructor}}},
+// 		{safe: true},
+// 		callback
+//     );
+// }

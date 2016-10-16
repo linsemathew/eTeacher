@@ -17,6 +17,62 @@ router.get('/classes', ensureAuthenticated, function(req, res, next) {
 	});
 });
 
+// Create a new class form
+router.get('/classes/newclass', function(req, res, next) {
+	var user = req.user.type
+	if (user == 'instructor'){
+		res.render('instructors/newclass');
+	} else {
+		res.redirect('/')
+	}
+});
+
+// Create a new class 
+router.post('/classes/newclass', function(req, res){
+
+    var first_name      = req.user.first_name;
+    var last_name       = req.user.last_name;
+    var title           = req.body.title;
+    var description     = req.body.description;
+
+	req.checkBody('title', 'Title is required.').notEmpty();
+    req.checkBody('title', 'Please enter a shorter title.').len(0, 40);
+    req.checkBody('description', 'Description is required.').notEmpty();
+    req.checkBody('description', 'Please enter a shorter description.').len(0, 100);
+
+    var errors = req.validationErrors();
+
+    if(errors){
+        res.render('instructors/newclass', {
+            errors: errors,
+            title: title,
+            description: description,
+        });
+    } else {
+
+        var newClass = {
+            title: title,
+            description: description,
+            instructor: first_name + " " + last_name,
+        };
+
+        //Save class
+        Class.createNewClass(newClass, function(err, addedClass){
+        	if (err){
+				console.log(err);
+				res.send(err);
+			} else {
+				console.log("Class added.")
+				//Add the class to the classes that the instructor is teaching
+				Instructor.registerForClass(addedClass, function(err, instructor){
+					if (err) throw err
+				});
+				res.redirect('/instructors/classes');
+			}
+        })
+    }
+});
+
 //Register Instructor as a student for a class
 router.post('/classes/register', function(req, res){
 	classInfo = [];
@@ -40,10 +96,10 @@ router.get('/classes/:id/lessons/new', ensureAuthenticated, function(req, res, n
 //Add a new lesson
 router.post('/classes/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
 
-	var lesson = []
-	var lesson['class_id'] = req.params.id;
-	var lesson['lesson_title'] = req.body.lesson_title;
-	var lesson['lesson_body'] = req.body.lesson_body;
+	var lesson = [];
+	lesson['class_id'] = req.params.id;
+	lesson['lesson_title'] = req.body.lesson_title;
+	lesson['lesson_body'] = req.body.lesson_body;
 
 	Class.addLesson(lesson, function(err, lesson){
 		console.log('Lesson was added.')

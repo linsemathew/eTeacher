@@ -45,9 +45,12 @@ router.post('/signup', function(req, res, next){
             email: email,
             password: password,
             password2: password2,
+            type: type
         });
     } else {
         var newUser = new User({
+            first_name: first_name,
+            last_name: last_name,
             email: email,
             password: password,
             type: type

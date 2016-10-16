@@ -26,16 +26,20 @@ module.exports.getClassesById = function(id, callback){
 }
 
 // Add a new lesson
-module.exports.addLesson = function(lesson, callback){
-	lesson_id = lesson['class_id'];
-    lesson_title = lesson['class_title'];
-    lesson_body = lesson['class_body'];
+// module.exports.addLesson = function(lesson, callback){
+// 	lesson_id = lesson['class_id'];
+//     lesson_title = lesson['class_title'];
+//     lesson_body = lesson['class_body'];
 
-    Class.findByIdAndUpdate(
-    	lesson_id,
-    	{$push: {'lesson_title': lesson_title, 'lesson_body': lesson_body}},
-    	{safe: true},
-    	callback
-    )
+//     Class.findByIdAndUpdate(
+//     	lesson_id,
+//     	{$push: {'lesson_title': lesson_title, 'lesson_body': lesson_body}},
+//     	{safe: true},
+//     	callback
+//     )
+// }
 
+// Create a new class
+module.exports.createNewClass = function(newClass, callback){
+	new Class(newClass).save(callback);
 }
