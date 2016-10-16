@@ -1,50 +1,64 @@
+<br>
 <div class="container">
-	<h3>Classes {{instructor.first_name}} Is Teaching</h3>
-	<br>
-	<table class="table">
-		<thead>
-			<tr class="info">
-				<th>Class Name</th>
-				<th>Lessons</th>
-			</tr>
-		</thead>
-		<tbody>
-			{{#if instructor.instructor_classes}}
-				{{#each instructor.instructor_classes}}
-					<tr class="active">
-						<td>{{class_title}}</td>
-						<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
-					</tr>
-				{{/each}}
-			{{else}}
-				<tr class="active">
-					<td>You aren't teaching any classes yet. <a href="/classes"><b>Click here</b></a> to create a new one.</td>
-					<td></td>
-				</tr>
-			{{/if}}
-		</tbody>
-	</table>
-
-	{{#if instructor.classes}}
-		<h3>Classes {{instructor.first_name}} Is Registered For</h3>
+	<div class="dashboard">
+		<h2>Welcome {{instructor.first_name}}</h2>
 		<br>
-		<table class="table">
-			<thead>
-				<tr class="info">
-					<th>Class Name</th>
-					<th>Instructor</th>
-					<th>Lessons</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{#each instructor.classes}}
-					<tr class="active">
-						<td>{{class_title}}</td>
-						<td>{{class_instructor}}</td>
-						<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h4 class="table-heading">Classes You Are Teaching</h4>
+			</div>
+			<table class="table">
+				<thead>
+					<tr class="info">
+						<th>Class Name</th>
+						<th>View Lessons</th>
+						<th>Add Lesson</th>
 					</tr>
-				{{/each}}
-			</tbody>
-		</table>
-	{{/if}}
+				</thead>
+				<tbody>
+					{{#if instructor.instructor_classes}}
+						{{#each instructor.instructor_classes}}
+							<tr class="active">
+								<td>{{class_title}}</td>
+								<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
+								<td><a href="/instructors/lessons/new">Add Lesson</a></td>
+							</tr>
+						{{/each}}
+					{{else}}
+						<tr class="active">
+							<td><a href="/instructors/classes/newclass"><b>Click here</b></a> to create a new class.</td>
+							<td></td>
+							<td></td>
+						</tr>
+					{{/if}}
+				</tbody>
+			</table>
+		</div>
+		<br>
+		{{#if instructor.classes}}
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="table-heading">Classes You Are Registered For</h4>
+				</div>
+				<table class="table">
+					<thead>
+						<tr class="info">
+							<th>Class Name</th>
+							<th>Instructor</th>
+							<th>Lessons</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each instructor.classes}}
+							<tr class="active">
+								<td>{{class_title}}</td>
+								<td>{{class_instructor}}</td>
+								<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+		{{/if}}
+	</div>
 </div>

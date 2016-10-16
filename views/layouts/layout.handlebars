@@ -45,15 +45,12 @@
 			{{>login}}
 		</nav>
 
-		{{{body}}}
-		{{#if isHome}}
-			{{>classes}}
-		{{/if}}
-
-		<footer>
-			<p>&copy; 2016 eTeacher</p>
-		</footer>
-		</div> <!-- /container -->
+		<div class="content">
+			{{{body}}}
+			{{#if isHome}}
+				{{>classes}}
+			{{/if}}
+		</div>
 
 
 		<!-- Bootstrap core JavaScript
