@@ -16,20 +16,19 @@
 					</tr>
 				</thead>
 				<tbody>
-					{{#if instructor.instructor_classes}}
-						{{#each instructor.instructor_classes}}
+					<tr class="active">
+						<td><a href="/instructors/classes/newclass"><b>Create new class</b></a></td>
+						<td></td>
+						<td></td>
+					</tr>
+					{{#if instructor.classes_instructor_for}}
+						{{#each instructor.classes_instructor_for}}
 							<tr class="active">
 								<td>{{class_title}}</td>
 								<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
 								<td><a href="/instructors/lessons/new">Add Lesson</a></td>
 							</tr>
 						{{/each}}
-					{{else}}
-						<tr class="active">
-							<td><a href="/instructors/classes/newclass"><b>Click here</b></a> to create a new class.</td>
-							<td></td>
-							<td></td>
-						</tr>
 					{{/if}}
 				</tbody>
 			</table>
