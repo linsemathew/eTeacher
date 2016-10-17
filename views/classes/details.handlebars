@@ -4,33 +4,33 @@
 		<div class="panel-heading">
 			<h2 class="class-title">{{class.title}}</h1>
 		</div>
-			<h4 class="panel-body">
-				<p>Instructor: {{class.instructor}}</p>
-				<br>
-				<p>Description: {{class.description}}</p>
-				<br>
-				<p>{{class.lessons.length}} Lessons</p>
-			</h4>
-			<ul class="list-group">
-				{{#if class.lessons}}
+		<h4 class="panel-body">
+			<p>Instructor: {{class.instructor}}</p>
+			<br>
+			<p>Description: {{class.description}}</p>
+			<br>
+			<p>{{class.lessons.length}} Lessons</p>
+		</h4>
+			{{#if class.lessons}}
+				<ul class="list-group">
 					<li class="list-group-item">
 						{{#each class.lessons}}
 					</li>
 						{{/each}}
-				{{/if}}
-			</ul>
-			<div class="panel-body">
-				{{#if user}}
-					<form id="regForm" method="post" action="/{{type}}s/classes/register">
-						<input type="hidden" name="class_id" value="{{class._id}}">
-						<input type="hidden" name="class_title" value="{{class.title}}">
-						<input type="hidden" name="class_instructor" value="{{class.instructor}}">
-						<input type="submit" class="button" value="Register">
-					</form>
-				{{else}}
-					<p><em>Please <a href="/users/login">login</a> or <a href="/users/signup">signup</a> to register for this class<em></p>
-				{{/if}}
-			</div>
+				</ul>
+			{{/if}}
+		<div class="panel-body">
+			{{#if user}}
+				<form id="regForm" method="post" action="/{{type}}s/classes/register">
+					<input type="hidden" name="class_id" value="{{class._id}}">
+					<input type="hidden" name="class_title" value="{{class.title}}">
+					<input type="hidden" name="class_instructor" value="{{class.instructor}}">
+					<input type="submit" class="button" value="Register">
+				</form>
+			{{else}}
+				<p><em>Please <a href="/users/login">login</a> or <a href="/users/signup">signup</a> to register for this class<em></p>
+			{{/if}}
+		</div>
 	</div>
 	<br><p><a class="btn btn-primary btn-lg" href="/classes" role="button">More classes &raquo;</a></p><br><br>
 </div>

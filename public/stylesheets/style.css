@@ -36,6 +36,13 @@
     text-shadow: 1px 1px #000;
 }
 
+.owl{
+	height: 25%;
+	width: 25%;
+	position: relative;
+    top: 4px;
+}
+
 .description{
 	text-overflow: ellipsis;
 	overflow: hidden;

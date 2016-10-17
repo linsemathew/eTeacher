@@ -22,12 +22,29 @@ router.get('/:id/details', function(req, res, next) {
 	});
 });
 
-router.get('/:id/lessons/:lesson_id', function(req, res, next) {
+router.get('/:id/lessons', function(req, res, next) {
 	Class.getClassesById([req.params.id], function(err, classLesson){
 		if (err){
 			res.send(error);
 		} else {
 			res.render('classes/lessons', {"class": classLesson})
+		}
+	});
+});
+
+router.get('/:id/lessons/:lesson_id', function(req, res, next) {
+	Class.getClassesById([req.params.id], function(err, classLesson){
+		if (err){
+			res.send(error);
+		} else {
+			Class.getLessonById([req.params.lesson_id], function(err, lesson){
+				if (err){
+					res.send(error);
+				} else {
+					console.log(lesson)
+					res.render('classes/lesson', {"lesson": lesson})
+				}
+			});
 		}
 	});
 });
