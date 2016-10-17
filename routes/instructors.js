@@ -30,6 +30,7 @@ router.get('/classes/newclass', function(req, res, next) {
 // Create a new class 
 router.post('/classes/newclass', function(req, res){
 
+	var instructorEmail = req.user.email;
     var first_name      = req.user.first_name;
     var last_name       = req.user.last_name;
     var title           = req.body.title;
@@ -64,7 +65,7 @@ router.post('/classes/newclass', function(req, res){
 			} else {
 				console.log("Class added.")
 				//Add the class to the classes that the instructor is teaching
-				Instructor.registerForClass(addedClass, function(err, instructor){
+				Instructor.addClassToTeachingClasses(addedClass, instructorEmail,function(err, instructor){
 					if (err) throw err
 				});
 				res.redirect('/instructors/classes');
