@@ -8,11 +8,6 @@ var instructorSchema = new Schema({
 	classes_instructor_for: [{
 		class_id: {type: [mongoose.Schema.Types.ObjectId]},
 		class_title: {type: String},
-		class_description: {type: String},
-		lessons: [{
-			lesson_title: {type: String},
-			lesson_body: {type: String}
-		}]
     }],
     classes: [{
 		class_id: {type: [mongoose.Schema.Types.ObjectId]},
@@ -57,13 +52,3 @@ module.exports.addClassToTeachingClasses = function(addedClass, instructorEmail,
 		callback
     );
 }
-
-// module.exports.addNewClass = function(classInfo, callback){
-
-//     //Only register for a class if they aren't registered already.
-// 	Instructor.findOneAndUpdate({'email': instructor_email,
-// 		{$addToSet: {instructor_classes: {class_id: class_id,class_title: class_title, class_instructor: class_instructor}}},
-// 		{safe: true},
-// 		callback
-//     );
-// }

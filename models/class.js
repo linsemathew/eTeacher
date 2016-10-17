@@ -5,6 +5,7 @@ var classSchema = new Schema({
 	title: { type: String, required: true },
 	description: { type: String, required: true },
 	instructor: { type: String, required: true },
+	instructor_id: { type: String, required: true },
 	lessons: [{
 		lesson_title: {type: String},
 		lesson_body: {type: String}
@@ -25,19 +26,31 @@ module.exports.getClassesById = function(id, callback){
 	Class.findById(id, callback);
 }
 
-// Add a new lesson
-// module.exports.addLesson = function(lesson, callback){
-// 	lesson_id = lesson['class_id'];
-//     lesson_title = lesson['class_title'];
-//     lesson_body = lesson['class_body'];
+// Get a specific class
+module.exports.getLessonById = function(id, callback){
+	Class.aggregate({ 
+		$match : {"shapes.color": "red"}},
+		{ $unwind : "$shapes" },
+		{ $match : {"shapes.color": "red"}}
+	)
+}
 
-//     Class.findByIdAndUpdate(
-//     	lesson_id,
-//     	{$push: {'lesson_title': lesson_title, 'lesson_body': lesson_body}},
-//     	{safe: true},
-//     	callback
-//     )
-// }
+// Add a new lesson
+module.exports.addLesson = function(newLesson, callback){
+	class_id = newLesson['class_id'];
+    lesson_title = newLesson['lesson_title'];
+    lesson_body = newLesson['lesson_body'];
+
+    Class.findByIdAndUpdate(class_id, {
+        $push:{"lessons": {
+          lesson_title: lesson_title,
+          lesson_body: lesson_body
+        }}
+    }, {
+        safe: true,
+        upsert:true
+    }, callback)
+}
 
 // Create a new class
 module.exports.createNewClass = function(newClass, callback){

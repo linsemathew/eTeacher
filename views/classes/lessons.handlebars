@@ -1,28 +1,43 @@
 <br>
 <div class="container">
-	<h3>{{class.title}} Lessons</h3>
-	<br>
-	<table class="table">
-		<thead>
-			<tr class="info">
-				<th>Lesson Title</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{{#if class.lessons}}
-				{{#each class.lessons}}
-					<tr class="active">
-						<td>{{class_title}}</td>
-						<td><a href="/classes/{{class_id}}/lessons/{{lesson._id}}">View Lessons</a></td>
+	<div class="dashboard">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h4 class="table-heading">{{class.title}}'s' Lessons</h4>
+			</div>
+			<table class="table">
+				<thead>
+					<tr class="info">
+						<th>Lesson Title</th>
+						<th>View Lesson</th>
+						<th>Edit Lesson</th>
+						<th>Delete Lesson</th>
 					</tr>
-				{{/each}}
-			{{else}}
-				<tr class="active">
-					<td>Don't have any lessons yet. <a href="/classes/new"><b>Click here</b></a> to add one.</td>
-					<td></td>
-				</tr>
-			{{/if}}
-		</tbody>
-	</table>
+				</thead>
+				<tbody>
+					{{#if class.lessons}}
+						{{#each class.lessons}}
+							<tr class="active">
+								<td>{{lesson_title}}</td>
+								<td><a href="/classes/{{../class._id}}/lessons/{{_id}}">View Lesson</a></td>
+								<td>Edit</td>
+								<td>Delete</td>
+							</tr>
+							<tr class="active">
+								<td><a href="/classes/new"><b>Add Lesson</b></a></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						{{/each}}
+					{{else}}
+						<tr class="active">
+							<td><a href="/classes/new"><b>Add lesson</b></a></td>
+							<td></td>
+						</tr>
+					{{/if}}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>

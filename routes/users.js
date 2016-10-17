@@ -96,7 +96,7 @@ router.post('/signup', function(req, res, next){
 
 router.get('/login', function(req, res, next){
     if (!req.user){
-        res.render('users/login', {message: req.flash('error'), title: "Login"});
+        res.render('users/login');
     } else {
         res.redirect('/classes');
     } 
