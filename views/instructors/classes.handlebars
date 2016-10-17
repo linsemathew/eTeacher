@@ -3,6 +3,7 @@
 	<div class="dashboard">
 		<h2>Welcome {{instructor.first_name}}</h2>
 		<br>
+		<img src="http://i68.tinypic.com/23moo5g.gif" class="teacher-logo">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h4 class="table-heading">Classes You Are Teaching</h4>
@@ -13,23 +14,29 @@
 						<th>Class Name</th>
 						<th>View Lessons</th>
 						<th>Add Lesson</th>
+						<th>Edit Class</th>
+						<th>Delete Class</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="active">
-						<td><a href="/instructors/classes/newclass"><b>Create new class</b></a></td>
-						<td></td>
-						<td></td>
-					</tr>
 					{{#if instructor.classes_instructor_for}}
 						{{#each instructor.classes_instructor_for}}
 							<tr class="active">
 								<td>{{class_title}}</td>
 								<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
-								<td><a href="/instructors/lessons/new">Add Lesson</a></td>
+								<td><a href="/instructors/classes/{{class_id}}/lessons/new">Add Lesson</a></td>
+								<td>Edit Class</td>
+								<td>Delete Class</td>
 							</tr>
 						{{/each}}
 					{{/if}}
+					<tr class="active">
+						<td><a href="/instructors/classes/newclass"><b>Create new class</b></a></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
