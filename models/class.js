@@ -5,10 +5,9 @@ var classSchema = new Schema({
 	title: { type: String, required: true },
 	description: { type: String, required: true },
 	instructor: { type: String, required: true },
-	instructor_id: { type: String, required: true },
+	instructor_email: { type: String, required: true },
 	lessons: [{
-		lesson_title: {type: String},
-		lesson_body: {type: String}
+		lesson_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Lesson'}
 	}],
 	created : { type : Date, default : Date.now }
 });
@@ -23,7 +22,11 @@ module.exports.getClasses = function(callback, limit){
 
 // Get a specific class
 module.exports.getClassesById = function(id, callback){
-	Class.findById(id, callback);
+	Class.findById(id)
+	.populate(
+		{path: 'lessons.lesson_id',
+		model: 'Lesson'}
+	).exec(callback)
 }
 
 // Create a new class
@@ -44,23 +47,11 @@ module.exports.updateClass = function(id, classUpdates, callback){
 	);
 }
 
-// Get a specific lesson
-module.exports.getLessonById = function(id, classLesson, callback){
-	Class.findOne({ 
-		lessons: { $elemMatch: { "_id" : ObjectId(id) } } 
-	})
-}
-
-// Add a new lesson
-module.exports.addLesson = function(newLesson, callback){
-	var class_id = newLesson['class_id'];
-    var lesson_title = newLesson['lesson_title'];
-    var lesson_body = newLesson['lesson_body'];
+module.exports.addLessonToClass = function(class_id, lesson, callback){
 
     Class.findByIdAndUpdate(class_id, {
-        $push:{"lessons": {
-          lesson_title: lesson_title,
-          lesson_body: lesson_body
+        $addToSet: {"lessons": {
+          lesson_id: lesson._id,
         }}}, 
         { safe: true, upsert: true }, 
         callback)
