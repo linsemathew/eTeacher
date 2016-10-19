@@ -7,11 +7,11 @@ var userSchema = new Schema({
 	last_name: { type: String },
 	email: { type: String },
 	password: { type: String },
-	type: { type: String }
+	type: { type: String },
+	created : { type : Date, default : Date.now }
 });
 
 var User = mongoose.model('User', userSchema);
-
 module.exports = User;
 
 //Get a User by id
