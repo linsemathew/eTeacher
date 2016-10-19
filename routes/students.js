@@ -4,6 +4,7 @@ var router = express.Router();
 Class = require('../models/class');
 Student = require('../models/student');
 User = require('../models/user');
+Lesson = require('../models/lesson');
 
 //Get Student's classes
 router.get('/classes', ensureAuthenticated, function(req, res, next) {

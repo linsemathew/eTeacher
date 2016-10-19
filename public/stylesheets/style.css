@@ -22,7 +22,8 @@
 }
 
 .btn{
-	border: .05px solid black;
+	white-space:normal !important;
+	/*border: .05px solid black;*/
 }
 
 .col-md-4{
