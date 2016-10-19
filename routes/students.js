@@ -9,7 +9,8 @@ User = require('../models/user');
 router.get('/classes', ensureAuthenticated, function(req, res, next) {
 	Student.getStudentByEmail(req.user.email, function(err, student){
 		if (err){
-			res.send(error);
+			console.log(err)
+			throw err
 		} else {
 			res.render('students/classes', {"student": student})
 		}
@@ -21,14 +22,15 @@ router.post('/classes/register', function(req, res){
 	classInfo = [];
 	classInfo['student_email'] = req.user.email; 
 	classInfo['class_id'] = req.body.class_id;
-	classInfo['class_title'] = req.body.class_title;
-	classInfo['class_instructor'] = req.body.class_instructor;
 
 	Student.registerForClass(classInfo, function(err, student){
-		if (err) throw err
+		if (err) {
+			throw err
+		} else {
+			res.redirect('/students/classes')
+		}
 	});
 
-	res.redirect('/students/classes')
 });
 
 function ensureAuthenticated(req, res, next){

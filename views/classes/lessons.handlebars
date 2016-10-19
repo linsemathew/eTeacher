@@ -3,15 +3,17 @@
 	<div class="dashboard">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h4 class="table-heading">{{class.title}}'s' Lessons</h4>
+				<h4 class="table-heading">Lessons For {{class.title}}</h4>
 			</div>
 			<table class="table">
 				<thead>
 					<tr class="info">
 						<th>Lesson Title</th>
 						<th>View Lesson</th>
-						<th>Edit Lesson</th>
-						<th>Delete Lesson</th>
+						{{#if instructor}}
+							<th>Edit Lesson</th>
+							<th>Delete Lesson</th>
+						{{/if}}
 					</tr>
 				</thead>
 				<tbody>
@@ -23,16 +25,13 @@
 								<td>Edit</td>
 								<td>Delete</td>
 							</tr>
-							<tr class="active">
-								<td><a href="/classes/new"><b>Add Lesson</b></a></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
 						{{/each}}
-					{{else}}
+					{{/if}}
+					{{#if instructor}}
 						<tr class="active">
-							<td><a href="/classes/new"><b>Add lesson</b></a></td>
+							<td><a href="/instructors/classes/{{class._id}}/lessons/new"><b>Add lesson</b></a></td>
+							<td></td>
+							<td></td>
 							<td></td>
 						</tr>
 					{{/if}}

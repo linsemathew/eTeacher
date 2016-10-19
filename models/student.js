@@ -6,10 +6,9 @@ var studentSchema = new Schema({
 	last_name: { type: String },
 	email: { type: String },
 	classes: [{
-		class_id: {type: [mongoose.Schema.Types.ObjectId]},
-		class_title: {type: String},
-		class_instructor: {type: String}
-    }]
+		class_id: {type: [mongoose.Schema.Types.ObjectId]}
+    }],
+    created : { type : Date, default : Date.now }
 });
 
 var Student = mongoose.model('Student', studentSchema);
@@ -31,7 +30,7 @@ module.exports.registerForClass = function(classInfo, callback){
     //Only register for a class if they aren't registered already.
 	Student.findOneAndUpdate({'email': student_email, 
 		'classes.class_id':{$ne: class_id}},
-		{$addToSet: {classes: {class_id: class_id,class_title: class_title, class_instructor: class_instructor}}},
+		{$addToSet: {classes: {class_id: class_id}}},
 		{safe: true},
 		callback
     );
