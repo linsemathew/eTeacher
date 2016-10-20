@@ -34,3 +34,9 @@ module.exports.updateLesson = function(id, lessonUpdates, callback){
 		callback
 	);
 }
+
+
+//Delete a lesson
+module.exports.deleteLesson = function(id, callback){
+	Lesson.findByIdAndRemove(id, callback)
+}

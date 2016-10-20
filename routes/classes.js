@@ -268,6 +268,28 @@ router.post('/:id/lessons/:lesson_id/edit', function(req, res, next){
 	}
 })
 
+//Delete a lesson
+router.post('/:id/lessons/:lesson_id/delete', function(req, res, next){
+	Lesson.deleteLesson(req.params.lesson_id, function(err, callback){
+		if (err){
+			console.log(err);
+			throw err
+		} else {
+			console.log('Lesson deleted.')
+			//Delete a lesson from classes.
+			Class.deleteLessonFromClass(req.params.lesson_id, req.params.id, function(err, callback){
+				if (err){
+					console.log(err);
+					throw err
+				} else {
+					console.log('Lesson removed from classes.')
+					res.redirect('/instructors/classes')
+				}
+			})
+		}
+	})
+})
+
 function ensureAuthenticated(req, res, next){
     if (req.isAuthenticated()){
         return next();

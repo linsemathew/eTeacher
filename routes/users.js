@@ -36,7 +36,7 @@ router.post('/signup', function(req, res, next){
     req.checkBody('password', 'Please choose a password between 6 to 50 characters.').len(6, 50);
 
     var errors = req.validationErrors();
-
+    console.log(errors)
     if(errors){
         res.render('users/signup', {
             errors: errors,
@@ -48,49 +48,67 @@ router.post('/signup', function(req, res, next){
             type: type
         });
     } else {
-        var newUser = new User({
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            password: password,
-            type: type
-        });
 
-        var newStudent = new Student({
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-        });
-
-        var newInstructor = new Instructor({
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-        });
-
-        //Save as student
-        if(type == 'student'){
-            User.saveStudent(newUser, newStudent, function(err, user){
-                console.log('Student saved');
-                req.login(newUser, function(err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                })
-                res.redirect('/' +type+ 's/classes');
-            })
-        } else {
-            //Save as instructor
-            User.saveInstructor(newUser, newInstructor, function(err, user){
-                console.log('Instructor saved');
-                req.login(newUser, function(err) {
-                    if (err) {
-                        console.log(err);
-                    }
+        User.getUserByEmail(email, function(err, user){
+            if (user){
+                res.render('users/signup', {
+                    errors: [ { 
+                        msg: 'Email already registered.',
+                    } ],
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password,
+                    password2: password2,
+                    type: type
                 });
-                res.redirect('/' +type+ 's/classes');
-            })
-        }
+            } else {
+
+                var newUser = new User({
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password,
+                    type: type
+                });
+
+                var newStudent = new Student({
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                });
+
+                var newInstructor = new Instructor({
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                });
+
+                //Save as student
+                if(type == 'student'){
+                    User.saveStudent(newUser, newStudent, function(err, user){
+                        console.log('Student saved');
+                        req.login(newUser, function(err) {
+                            if (err) {
+                                console.log(err);
+                            }
+                        })
+                        res.redirect('/' +type+ 's/classes');
+                    })
+                } else {
+                    //Save as instructor
+                    User.saveInstructor(newUser, newInstructor, function(err, user){
+                        console.log('Instructor saved');
+                        req.login(newUser, function(err) {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                        res.redirect('/' +type+ 's/classes');
+                    })
+                }
+            }
+        })
     }
 });
 

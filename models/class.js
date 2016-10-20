@@ -47,6 +47,7 @@ module.exports.updateClass = function(id, classUpdates, callback){
 	);
 }
 
+//Add lesson to class
 module.exports.addLessonToClass = function(class_id, lesson, callback){
 
     Class.findByIdAndUpdate(class_id, {
@@ -55,4 +56,13 @@ module.exports.addLessonToClass = function(class_id, lesson, callback){
         }}}, 
         { safe: true, upsert: true }, 
         callback)
+}
+
+// Delete a lesson from class
+module.exports.deleteLessonFromClass = function(class_id, lesson_id, callback){
+	Class.update(
+    	{'_id': class_id}, 
+    	{ $push: {lessons: {lesson_id: ObjectId(lesson_id)}}},
+    	callback
+    )
 }
