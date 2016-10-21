@@ -1,36 +1,38 @@
 <br>
-<div class="container">
+<div class="container details-text">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="class-title">{{class.title}}</h1>
+			<h2 class="class-title">{{class.title}}</h2>
 		</div>
 		<h4 class="panel-body">
 			<p>Instructor: {{class.instructor}}</p>
 			<br>
 			<p>Description: {{class.description}}</p>
 			<br>
-			<p>{{class.lessons.length}} Lessons</p>
+			<p>Lessons: {{class.lessons.length}}</p>
 		</h4>
-			{{#if class.lessons}}
-				<ul class="list-group">
-					<li class="list-group-item">
-						{{#each class.lessons}}
-					</li>
-						{{/each}}
-				</ul>
-			{{/if}}
 		<div class="panel-body">
 			{{#if user}}
 				<form id="regForm" method="post" action="/{{type}}s/classes/register">
 					<input type="hidden" name="class_id" value="{{class._id}}">
 					<input type="hidden" name="class_title" value="{{class.title}}">
 					<input type="hidden" name="class_instructor" value="{{class.instructor}}">
-					<input type="submit" class="button" value="Register">
+					<button type="submit" class="btn btn-lg btn-primary">Register</button>
 				</form>
 			{{else}}
 				<p><em>Please <a href="/users/login">login</a> or <a href="/users/signup">signup</a> to register for this class<em></p>
 			{{/if}}
 		</div>
+		{{#if class.lessons}}
+			<div class="panel-body">
+				{{#each class.lessons}}
+					<ul class="list-group">
+						<li class="list-group-item">
+							{{lesson_title}}
+						</li>
+					</ul>
+				{{/each}}
+			</div>
+		{{/if}}
 	</div>
-	<br><p><a class="btn btn-primary btn-lg" href="/classes" role="button">More classes &raquo;</a></p><br><br>
 </div>

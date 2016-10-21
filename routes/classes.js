@@ -82,6 +82,7 @@ router.get('/:id/details', function(req, res, next) {
 			console.log(err)
 			throw err
 		} else {
+			console.log(name)
 			res.render('classes/details', {"class": name})
 		}
 	});
@@ -169,6 +170,7 @@ router.post('/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
 	var class_id          = req.params.id;
 	var lesson_title      = req.body.lesson_title;
 	var lesson_body       = req.body.lesson_body;
+	var creator_class     = req.params.id
 
 	req.checkBody('lesson_title', 'Title is required.').notEmpty();
     req.checkBody('lesson_title', 'Please enter a shorter title.').len(0, 40);
@@ -190,6 +192,7 @@ router.post('/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
             instructor_email: instructor_email,
             lesson_title: lesson_title,
             lesson_body: lesson_body
+            creator_class: creator_class
         };
         
         Lesson.saveLesson(newLesson, function(err, lesson){
