@@ -34,6 +34,7 @@ router.post('/newclass', function(req, res){
     var last_name       = req.user.last_name;
     var title           = req.body.title;
     var description     = req.body.description;
+    var category        = req.body.category;
 
 	req.checkBody('title', 'Title is required.').notEmpty();
     req.checkBody('title', 'Please enter a shorter title.').len(0, 40);
@@ -54,7 +55,8 @@ router.post('/newclass', function(req, res){
             title: title,
             description: description,
             instructor: first_name + " " + last_name,
-            instructor_email: instructorEmail
+            instructor_email: instructorEmail,
+            category: category
         };
 
         //Save class
@@ -191,7 +193,7 @@ router.post('/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
     	var newLesson = {
             instructor_email: instructor_email,
             lesson_title: lesson_title,
-            lesson_body: lesson_body
+            lesson_body: lesson_body,
             creator_class: creator_class
         };
         

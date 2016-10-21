@@ -7,7 +7,7 @@ var classSchema = new Schema({
 	instructor: { type: String, required: true },
 	instructor_email: { type: String, required: true },
 	lessons: [{type: mongoose.Schema.Types.ObjectId, ref: 'Lesson'}],
-	created : { type : Date, default : Date.now }
+	created : { type : Date, default : Date.now },
 	category: { type: String, required: true }
 });
 
