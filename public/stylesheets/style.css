@@ -71,7 +71,7 @@ div.panel-heading{
   font-size: large;
 }
 
-.instead, .alert, .dashboard, th, .submit-button, .new-classes, .form-title, .all-classes, .class-title{
+.instead, .alert, .dashboard, th, .submit-button, .new-classes, .form-title, .all-classes, .class-title, .details-text{
 	text-align: center;
 }
 

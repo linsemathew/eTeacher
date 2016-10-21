@@ -5,6 +5,7 @@ var lessonSchema = new Schema({
 	lesson_title: { type: String, required: true },
 	lesson_body: { type: String, required: true },
 	instructor_email: {type: String, required: true},
+	creator_class: {type: mongoose.Schema.Types.ObjectId, ref: 'Class'},
 	created : { type : Date, default : Date.now }
 });
 
@@ -34,7 +35,6 @@ module.exports.updateLesson = function(id, lessonUpdates, callback){
 		callback
 	);
 }
-
 
 //Delete a lesson
 module.exports.deleteLesson = function(id, callback){

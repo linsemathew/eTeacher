@@ -6,10 +6,9 @@ var classSchema = new Schema({
 	description: { type: String, required: true },
 	instructor: { type: String, required: true },
 	instructor_email: { type: String, required: true },
-	lessons: [{
-		lesson_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Lesson'}
-	}],
+	lessons: [{type: mongoose.Schema.Types.ObjectId, ref: 'Lesson'}],
 	created : { type : Date, default : Date.now }
+	category: { type: String, required: true }
 });
 
 var Class = mongoose.model('Class', classSchema);
@@ -24,8 +23,8 @@ module.exports.getClasses = function(callback, limit){
 module.exports.getClassesById = function(id, callback){
 	Class.findById(id)
 	.populate(
-		{path: 'lessons.lesson_id',
-		model: 'Lesson'}
+		{path: 'lessons',
+		model: 'Lesson', $ne: null}
 	).exec(callback)
 }
 
@@ -51,9 +50,9 @@ module.exports.updateClass = function(id, classUpdates, callback){
 module.exports.addLessonToClass = function(class_id, lesson, callback){
 
     Class.findByIdAndUpdate(class_id, {
-        $addToSet: {"lessons": {
-          lesson_id: lesson._id,
-        }}}, 
+        $push: {"lessons": 
+          lesson._id,
+        }}, 
         { safe: true, upsert: true }, 
         callback)
 }
@@ -62,7 +61,9 @@ module.exports.addLessonToClass = function(class_id, lesson, callback){
 module.exports.deleteLessonFromClass = function(class_id, lesson_id, callback){
 	Class.update(
     	{'_id': class_id}, 
-    	{ $push: {lessons: {lesson_id: ObjectId(lesson_id)}}},
+    	{ $pull: {lessons: lesson_id}},
+    	{ multi: true },
     	callback
     )
+
 }

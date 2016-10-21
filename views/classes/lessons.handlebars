@@ -20,12 +20,12 @@
 					{{#if class.lessons}}
 						{{#each class.lessons}}
 							<tr class="active">
-								<td>{{lesson_id.lesson_title}}</td>
-								<td><a href="/lessons/{{lesson_id._id}}"><button type="button" class="btn btn-success">View Lesson</button></a></td>
+								<td>{{lesson_title}}</td>
+								<td><a href="/lessons/{{_id}}"><button type="button" class="btn btn-success">View Lesson</button></a></td>
 								{{#if ../instructor}}
-									<td><a href="/classes/{{../class._id}}/lessons/{{lesson_id._id}}/edit"><button type="button" class="btn btn-warning">Edit Lesson</button></a></td>
+									<td><a href="/classes/{{../class._id}}/lessons/{{_id}}/edit"><button type="button" class="btn btn-warning">Edit Lesson</button></a></td>
 									<td>  
-										<form action="/classes/{{../class._id}}/lessons/{{lesson_id._id}}/delete" method="post">
+										<form action="/classes/{{../class._id}}/lessons/{{_id}}/delete" method="post">
 											<input type="hidden" name="_method" value="delete">
 											<button type="submit" class="btn btn-danger">Delete Lesson</button>
 										</form>
