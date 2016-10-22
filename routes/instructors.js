@@ -19,10 +19,10 @@ router.get('/classes', ensureAuthenticated, function(req, res, next) {
 
 
 //Register Instructor as a student for a class
-router.post('/classes/register', function(req, res){
+router.post('/classes/:id/register', function(req, res){
 	classInfo = [];
 	classInfo['instructor_email'] = req.user.email; 
-	classInfo['class_id'] = req.body.class_id;
+	classInfo['class_id'] = req.params.id;
 
 	Instructor.registerForClass(classInfo, function(err, instructor){
 		if (err) {
@@ -30,6 +30,24 @@ router.post('/classes/register', function(req, res){
 			throw err;
 		} else {
 			console.log("Successfully registered")
+			res.redirect('/instructors/classes');
+		}
+	});
+});
+
+//Drop registered class
+router.post('/classes/:id/delete', function(req, res){
+
+	classInfo 							= [];
+	classInfo['instructor_email']   	= req.user.email;
+	classInfo['class_id'] 				= req.params.id;
+
+	Instructor.dropClass(classInfo, function(err, instructor){
+		if (err) {
+			console.log(err)
+			throw err;
+		} else {
+			console.log("Dropped class.")
 			res.redirect('/instructors/classes');
 		}
 	});

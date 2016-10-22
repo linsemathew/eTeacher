@@ -12,6 +12,7 @@ var classSchema = new Schema({
 });
 
 var Class = mongoose.model('Class', classSchema);
+
 module.exports = Class;
 
 // Get all classes
@@ -57,12 +58,21 @@ module.exports.addLessonToClass = function(class_id, lesson, callback){
         callback)
 }
 
+//Delete a class
+module.exports.deleteClass = function(class_id, callback){
+	Class.findByIdAndRemove(class_id, callback)
+}
+
 // Delete a lesson from class
-module.exports.deleteLessonFromClass = function(class_id, lesson_id, callback){
-	Class.update(
-    	{'_id': class_id}, 
-    	{ $pull: {lessons: lesson_id}},
-    	{ multi: true },
+module.exports.deleteLessonFromClass = function(lesson, callback){
+
+	var class_id 		= lesson['class_id'];
+	var lesson_id 		= lesson['lesson_id'];
+
+	Class.findOneAndUpdate(
+    	{_id: class_id}, 
+    	{ $pull: {'lessons': lesson_id}},
+    	{ safe: true },
     	callback
     )
 

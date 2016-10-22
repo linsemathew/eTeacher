@@ -108,6 +108,7 @@ router.post('/:id/edit', function(req, res, next){
 	var classUpdates                = []; 
 	classUpdates['title']           = req.body.title;
     classUpdates['description']     = req.body.description;
+    classUpdates['classId']         = req.user.id;
 
    	req.checkBody('title', 'Title is required.').notEmpty();
     req.checkBody('title', 'Please enter a shorter title.').len(0, 40);
@@ -134,6 +135,55 @@ router.post('/:id/edit', function(req, res, next){
 			}
 		})
 	}
+})
+
+//Delete a class
+router.post('/:id/delete', function(req, res, next){
+	Class.deleteClass(req.params.id, function(err, deletedClass){
+		if (err){
+			console.log(err);
+			throw err
+		} else {
+			instructor_email 	= deletedClass.instructor_email;
+			deleted_class_id 	= deletedClass._id;
+
+			console.log('Class deleted.')
+			//Delete a lesson from classes.
+			Lesson.deleteLessonsFromDeletedClass(deleted_class_id, function(err, callback){
+				if (err){
+					console.log(err);
+					throw err
+				} else {
+					console.log('Lessons from deleted class are removed.');
+					Instructor.removeClassInstructorFor(instructor_email, deleted_class_id, function(err, callback){
+						if (err){
+							console.log(err);
+							throw err;
+						} else {
+							console.log('Class deleted from instructor for.');
+							Student.removeDeletedClass(deleted_class_id, function(err, callback){
+								if (err){
+									console.log(err);
+									throw err;	
+								} else {
+									console.log('Class deleted from students.');
+									Instructor.removeDeletedClass(deleted_class_id, function(err, callback){
+										if (err){
+											console.log(err);
+											throw err;	
+										} else {
+											console.log("Class deleted from Instructors that registered for it.")
+											res.redirect('/instructors/classes')
+										}
+									})
+								}
+							})
+						}
+					})
+				}
+			})
+		}
+	})
 })
 
 //View all lessons for a class
@@ -275,19 +325,24 @@ router.post('/:id/lessons/:lesson_id/edit', function(req, res, next){
 
 //Delete a lesson
 router.post('/:id/lessons/:lesson_id/delete', function(req, res, next){
-	Lesson.deleteLesson(req.params.lesson_id, function(err, callback){
+
+	var lesson 					= [];
+	lesson['lesson_id'] 		= req.params.lesson_id;
+	lesson['class_id'] 			= req.params.id;
+	
+	Lesson.deleteLesson(lesson, function(err, lesson){
 		if (err){
 			console.log(err);
 			throw err
 		} else {
 			console.log('Lesson deleted.')
 			//Delete a lesson from classes.
-			Class.deleteLessonFromClass(req.params.lesson_id, req.params.id, function(err, callback){
+			Class.deleteLessonFromClass(lesson, function(err, callback){
 				if (err){
 					console.log(err);
 					throw err
 				} else {
-					console.log('Lesson removed from classes.')
+					console.log('Lesson deleted from class.')
 					res.redirect('/instructors/classes')
 				}
 			})

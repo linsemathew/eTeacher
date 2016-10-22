@@ -37,6 +37,12 @@ module.exports.updateLesson = function(id, lessonUpdates, callback){
 }
 
 //Delete a lesson
-module.exports.deleteLesson = function(id, callback){
-	Lesson.findByIdAndRemove(id, callback)
+module.exports.deleteLesson = function(lesson, callback){
+
+	Lesson.findByIdAndRemove(lesson['lesson_id'], callback)
+}
+
+// Delete lesson from a deleted class
+module.exports.deleteLessonsFromDeletedClass = function(class_id, callback){
+	Lesson.remove({creator_class: class_id}, callback)
 }
