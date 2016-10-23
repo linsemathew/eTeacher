@@ -31,7 +31,7 @@ module.exports.getClassesById = function(id, callback){
 
 // Get classes by a category
 module.exports.getClassesByCategory = function(id, callback){
-	Class.find({'category': id}, callback)
+	Class.find({'category': id}, callback).sort({_id:-1})
 }
 
 // Create a new class
@@ -57,7 +57,7 @@ module.exports.addLessonToClass = function(class_id, lesson, callback){
 
     Class.findByIdAndUpdate(class_id, {
         $push: {"lessons": 
-          lesson._id,
+          lesson,
         }}, 
         { safe: true, upsert: true }, 
         callback)

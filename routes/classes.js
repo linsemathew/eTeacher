@@ -274,14 +274,14 @@ router.post('/:id/lessons', ensureAuthenticated, function(req, res, next) {
             creator_class: creator_class
         };
         
-        Lesson.saveLesson(newLesson, function(err, lesson){
+        Lesson.saveLesson(newLesson, function(err, addedLesson){
         	if (err){
         		console.log(err)
         		throw err
         	} else {
         		console.log('Lesson saved.')
         		//Add a lesson to classes
-				Class.addLessonToClass(class_id, lesson, function(err, foundClass){
+				Class.addLessonToClass(class_id, addedLesson._id, function(err, foundClass){
 					if(err){
 						console.log(err)
 						throw err
