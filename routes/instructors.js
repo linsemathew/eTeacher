@@ -12,17 +12,18 @@ router.get('/classes', ensureAuthenticated, function(req, res, next) {
 			console.log(err);
 			throw err;
 		} else {
-			res.render('instructors/classes', {"instructor": instructor})
+			res.render('instructors/index', {"instructor": instructor})
 		}
 	});
 });
 
 
 //Register Instructor as a student for a class
-router.post('/classes/:id/register', function(req, res){
-	classInfo = [];
-	classInfo['instructor_email'] = req.user.email; 
-	classInfo['class_id'] = req.params.id;
+router.post('/classes/:id/new', function(req, res){
+	classInfo 						= [];
+	classInfo['instructor_email']   = req.user.email; 
+	classInfo['class_id'] 			= req.params.id;
+	var instructor_id 				= req.user._id;
 
 	Instructor.registerForClass(classInfo, function(err, instructor){
 		if (err) {
@@ -41,6 +42,7 @@ router.post('/classes/:id/delete', function(req, res){
 	classInfo 							= [];
 	classInfo['instructor_email']   	= req.user.email;
 	classInfo['class_id'] 				= req.params.id;
+	var instructor_id 					= req.user._id;
 
 	Instructor.dropClass(classInfo, function(err, instructor){
 		if (err) {

@@ -13,13 +13,13 @@ router.get('/classes', ensureAuthenticated, function(req, res, next) {
 			console.log(err)
 			throw err
 		} else {
-			res.render('students/classes', {"student": student})
+			res.render('students/index', {"student": student})
 		}
 	});
 });
 
 //Register Students for a class
-router.post('/classes/:id/register', function(req, res){
+router.post('/classes/:id/new', function(req, res){
 	classInfo = [];
 	classInfo['student_email'] = req.user.email; 
 	classInfo['class_id'] = req.params.id;

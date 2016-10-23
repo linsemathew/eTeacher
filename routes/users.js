@@ -7,15 +7,15 @@ var User = require('../models/user');
 var Student = require('../models/student');
 var Instructor= require('../models/instructor');
 
-router.get('/signup', function(req, res, next) {
+router.get('/new', function(req, res, next) {
     if (!req.user){
-        res.render('users/signup');
+        res.render('users/new');
     } else {
         res.redirect('/classes');
     } 
 });
 
-router.post('/signup', function(req, res, next){
+router.post('/new', function(req, res, next){
 
     var first_name      = req.body.first_name;
     var last_name       = req.body.last_name;
@@ -38,7 +38,7 @@ router.post('/signup', function(req, res, next){
     var errors = req.validationErrors();
     console.log(errors)
     if(errors){
-        res.render('users/signup', {
+        res.render('users/new', {
             errors: errors,
             first_name: first_name,
             last_name: last_name,
@@ -51,7 +51,7 @@ router.post('/signup', function(req, res, next){
 
         User.getUserByEmail(email, function(err, user){
             if (user){
-                res.render('users/signup', {
+                res.render('users/new', {
                     errors: [ { 
                         msg: 'Email already registered.',
                     } ],

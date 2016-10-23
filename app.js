@@ -21,7 +21,6 @@ var users = require('./routes/users');
 var classes = require('./routes/classes');
 var students = require('./routes/students');
 var instructors = require('./routes/instructors');
-var lessons = require('./routes/lessons');
 var categories = require('./routes/categories');
 
 var app = express();
@@ -103,7 +102,6 @@ app.use('/users', users);
 app.use('/classes', classes);
 app.use('/students', students)
 app.use('/instructors', instructors);
-app.use('/lessons', lessons);
 app.use('/categories', categories);
 
 // catch 404 and forward to error handler

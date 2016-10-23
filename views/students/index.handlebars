@@ -22,7 +22,7 @@
 							<tr class="active">
 								<td>{{class_id.title}}</td>
 								<td>{{class_id.instructor}}</td>
-								<td><a href="/classes/{{class_id._id}}/lessons">View Lessons</a></td>
+								<td><a href="/classes/{{class_id._id}}/lessons"><button type="button" class="btn btn-success">View Lessons</button</a></td>
 								<td>									
 									<form action="/students/classes/{{class_id._id}}/delete" method="post">
 											<input type="hidden" name="_method" value="delete">
@@ -33,7 +33,7 @@
 						{{/each}}
 					{{/if}}
 					<tr class="active">
-						<td><a href="/classes"><b>Add Classes</b></a></td>
+						<td><a href="/categories"><b>Add Class</b></a></td>
 						<td></td>
 						<td></td>
 						<td></td>
