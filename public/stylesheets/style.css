@@ -6,6 +6,8 @@
 	padding-bottom: 20px;
 }
 
+
+
 .jumbotron{
 	color: white;
 	text-align: center;
@@ -92,4 +94,11 @@ form{
     top: 0px;
     height: 30%;
     width: 25%;
+}
+
+
+/*Categories*/
+
+.all-categories{
+	text-align: center;
 }

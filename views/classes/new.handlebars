@@ -4,7 +4,7 @@
         <div class="panel-heading">
             <h2 class="form-title">New Class</h2>
         </div>
-        <form class="signup-form" method="post" action="/classes/newclass">
+        <form class="signup-form" method="post" action="/classes">
             {{#if errors}}
                 {{#each errors}}
                     <div class="alert alert-danger">
@@ -29,11 +29,9 @@
                     <label for="sel1" class="col-sm-2 col-form-label">Category:</label>
                     <div class="col-sm-10">
                         <select class="form-control" name="category">
-                            <option value="math">Math</option>
-                            <option value="science">Science</option>
-                            <option value="english">English</option>
-                            <option value="foreign-language">Foreign Language</option>
-                            <option value="other">Other</option>
+                            {{#each categories}}
+                                <option value="{{id}}">{{title}}</option>
+                            {{/each}}
                         </select>
                     </div>
                 </div>

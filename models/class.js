@@ -8,7 +8,7 @@ var classSchema = new Schema({
 	instructor_email: { type: String, required: true },
 	lessons: [{type: mongoose.Schema.Types.ObjectId, ref: 'Lesson'}],
 	created : { type : Date, default : Date.now },
-	category: { type: String, required: true }
+	category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'}
 });
 
 var Class = mongoose.model('Class', classSchema);
@@ -27,6 +27,11 @@ module.exports.getClassesById = function(id, callback){
 		{path: 'lessons',
 		model: 'Lesson', $ne: null}
 	).exec(callback)
+}
+
+// Get classes by a category
+module.exports.getClassesByCategory = function(id, callback){
+	Class.find({'category': id}, callback)
 }
 
 // Create a new class

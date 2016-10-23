@@ -3,7 +3,9 @@ var router = express.Router();
 Class = require('../models/class')
 Instructor = require('../models/instructor');
 Lesson = require('../models/lesson');
+Category = require('../models/category')
 
+//Get all classes
 router.get('/', function(req, res, next) {
 	Class.getClasses(function(err, classes){
 		if (err){
@@ -16,17 +18,25 @@ router.get('/', function(req, res, next) {
 });
 
 // Get a new class form
-router.get('/newclass', function(req, res, next) {
+router.get('/new', function(req, res, next) {
 	var user = req.user.type
+
 	if (user && user == 'instructor'){
-		res.render('classes/newclass');
+		Category.getCategories(function(err, categories){
+			if (err){
+				console.log(err);
+				throw err
+			} else {
+				res.render('classes/new', {categories: categories});
+			}
+		})
 	} else {
 		res.redirect('/')
 	}
 });
 
 // Create a new class 
-router.post('/newclass', function(req, res){
+router.post('/', function(req, res){
 
 	var instructor_id   = req.user._id
 	var instructorEmail = req.user.email;
@@ -44,7 +54,7 @@ router.post('/newclass', function(req, res){
     var errors = req.validationErrors();
 
     if(errors){
-        res.render('classes/newclass', {
+        res.render('classes/new', {
             errors: errors,
             title: title,
             description: description,
@@ -78,14 +88,14 @@ router.post('/newclass', function(req, res){
 });
 
 //View details for a single class
-router.get('/:id/details', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
 	Class.getClassesById([req.params.id], function(err, name){
 		if (err){
 			console.log(err)
 			throw err
 		} else {
 			console.log(name)
-			res.render('classes/details', {"class": name})
+			res.render('classes/show', {"class": name})
 		}
 	});
 });
