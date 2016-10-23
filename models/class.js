@@ -8,10 +8,11 @@ var classSchema = new Schema({
 	instructor_email: { type: String, required: true },
 	lessons: [{type: mongoose.Schema.Types.ObjectId, ref: 'Lesson'}],
 	created : { type : Date, default : Date.now },
-	category: { type: String, required: true }
+	category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'}
 });
 
 var Class = mongoose.model('Class', classSchema);
+
 module.exports = Class;
 
 // Get all classes
@@ -26,6 +27,11 @@ module.exports.getClassesById = function(id, callback){
 		{path: 'lessons',
 		model: 'Lesson', $ne: null}
 	).exec(callback)
+}
+
+// Get classes by a category
+module.exports.getClassesByCategory = function(id, callback){
+	Class.find({'category': id}, callback)
 }
 
 // Create a new class
@@ -57,12 +63,21 @@ module.exports.addLessonToClass = function(class_id, lesson, callback){
         callback)
 }
 
+//Delete a class
+module.exports.deleteClass = function(class_id, callback){
+	Class.findByIdAndRemove(class_id, callback)
+}
+
 // Delete a lesson from class
-module.exports.deleteLessonFromClass = function(class_id, lesson_id, callback){
-	Class.update(
-    	{'_id': class_id}, 
-    	{ $pull: {lessons: lesson_id}},
-    	{ multi: true },
+module.exports.deleteLessonFromClass = function(lesson, callback){
+
+	var class_id 		= lesson['class_id'];
+	var lesson_id 		= lesson['lesson_id'];
+
+	Class.findOneAndUpdate(
+    	{_id: class_id}, 
+    	{ $pull: {'lessons': lesson_id}},
+    	{ safe: true },
     	callback
     )
 

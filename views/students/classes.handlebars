@@ -2,7 +2,7 @@
 <div class="container">
 	<div class="dashboard">
 		<h2>Welcome {{student.first_name}}</h2>
-		<img src="http://i65.tinypic.com/21931n4.png" class="owl">
+		<img src="../images/student-owl.png" class="owl">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h4 class="table-heading">Classes You Are Registered For</h4>
@@ -13,24 +13,31 @@
 						<th>Class Name</th>
 						<th>Instructor</th>
 						<th>Lessons</th>
+						<th>Drop</th>
 					</tr>
 				</thead>
 				<tbody>
 					{{#if student.classes}}
 						{{#each student.classes}}
 							<tr class="active">
-								<td>{{class_title}}</td>
-								<td>{{class_instructor}}</td>
-								<td><a href="/classes/{{class_id}}/lessons">View Lessons</a></td>
+								<td>{{class_id.title}}</td>
+								<td>{{class_id.instructor}}</td>
+								<td><a href="/classes/{{class_id._id}}/lessons">View Lessons</a></td>
+								<td>									
+									<form action="/students/classes/{{class_id._id}}/delete" method="post">
+											<input type="hidden" name="_method" value="delete">
+											<button type="submit" class="btn btn-danger">Delete Class</button>
+									</form>
+								</td>
 							</tr>
 						{{/each}}
-					{{else}}
-						<tr class="active">
-							<td><a href="/classes"><b>Add Classes</b></a></td>
-							<td></td>
-							<td></td>
-						</tr>
 					{{/if}}
+					<tr class="active">
+						<td><a href="/classes"><b>Add Classes</b></a></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

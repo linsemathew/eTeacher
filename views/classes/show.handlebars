@@ -13,10 +13,7 @@
 		</h4>
 		<div class="panel-body">
 			{{#if user}}
-				<form id="regForm" method="post" action="/{{type}}s/classes/register">
-					<input type="hidden" name="class_id" value="{{class._id}}">
-					<input type="hidden" name="class_title" value="{{class.title}}">
-					<input type="hidden" name="class_instructor" value="{{class.instructor}}">
+				<form id="regForm" method="post" action="/{{type}}s/classes/{{class._id}}/register">
 					<button type="submit" class="btn btn-lg btn-primary">Register</button>
 				</form>
 			{{else}}
