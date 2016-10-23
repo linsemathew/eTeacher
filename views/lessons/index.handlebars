@@ -1,5 +1,20 @@
 <br>
 <div class="container">
+	{{#if messages.message-add}}
+		<div class="alert alert-info message-alert">
+			{{messages.message-add}}
+		</div>
+	{{/if}}
+	{{#if messages.message-drop}}
+		<div class="alert alert-danger message-alert">
+			{{messages.message-drop}}
+		</div>
+	{{/if}}
+	{{#if messages.message-edit}}
+		<div class="alert alert-warning message-alert">
+			{{messages.message-edit}}
+		</div>
+	{{/if}}	
 	<div class="dashboard">
 		<div class="panel panel-primary">
 			<div class="panel-heading">

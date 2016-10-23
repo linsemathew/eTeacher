@@ -23,17 +23,24 @@ router.post('/classes/:id/new', function(req, res){
 	classInfo 						= [];
 	classInfo['instructor_email']   = req.user.email; 
 	classInfo['class_id'] 			= req.params.id;
-	var instructor_id 				= req.user._id;
 
-	Instructor.registerForClass(classInfo, function(err, instructor){
-		if (err) {
-			console.log(err)
-			throw err;
+	Instructor.searchForClass(classInfo, function(err, foundClass){
+		if (foundClass){
+			req.flash('message-drop', "You are already registered for this class.")
+			res.redirect('/instructors/classes')
 		} else {
-			console.log("Successfully registered")
-			res.redirect('/instructors/classes');
+			Instructor.registerForClass(classInfo, function(err, instructor){
+				if (err) {
+					console.log(err)
+					throw err;
+				} else {
+					console.log("Successfully registered");
+					req.flash('message-register', "Registered successfully.");
+					res.redirect('/instructors/classes');
+				}
+			})
 		}
-	});
+	})
 });
 
 //Drop registered class
@@ -50,6 +57,7 @@ router.post('/classes/:id/delete', function(req, res){
 			throw err;
 		} else {
 			console.log("Dropped class.")
+			req.flash('message-drop', "Class dropped successfully.");
 			res.redirect('/instructors/classes');
 		}
 	});

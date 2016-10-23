@@ -1,23 +1,23 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+//Class schema
 var classSchema = new Schema({
 	title: { type: String, required: true },
 	description: { type: String, required: true },
 	instructor: { type: String, required: true },
 	instructor_email: { type: String, required: true },
-	lessons: [{type: mongoose.Schema.Types.ObjectId, ref: 'Lesson'}],
+	lessons: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' }],
 	created : { type : Date, default : Date.now },
-	category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'}
+	category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
 });
 
-var Class = mongoose.model('Class', classSchema);
-
+var Class = mongoose.model( 'Class', classSchema );
 module.exports = Class;
 
-// Get all classes
-module.exports.getClasses = function(callback, limit){
-	Class.find(callback).sort({_id:-1}).limit(limit);
+// Get latest 3 classes
+module.exports.getClasses = function( callback, limit ) {
+	Class.find( callback ).sort({ _id:-1 }).limit( limit );
 }
 
 // Get a specific class

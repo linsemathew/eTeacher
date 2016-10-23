@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var expressValidator = require('express-validator');
-var flash = require('connect-flash');
+var flash = require('express-flash');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local'),Strategy;
@@ -69,7 +69,6 @@ app.use(expressValidator({
 app.use(flash());
 
 app.use(function (req, res, next) {
-  res.locals.messages = require('express-messages')(req, res);
 
   if(req.url == '/'){
     res.locals.isHome = true;
