@@ -1,5 +1,25 @@
 <br>
 <div class="container">
+	{{#if messages.message-add}}
+		<div class="alert alert-info message-alert">
+			{{messages.message-add}}
+		</div>
+	{{/if}}
+	{{#if messages.message-drop}}
+		<div class="alert alert-danger message-alert">
+			{{messages.message-drop}}
+		</div>
+	{{/if}}
+	{{#if messages.message-edit}}
+		<div class="alert alert-warning message-alert">
+			{{messages.message-edit}}
+		</div>
+	{{/if}}	
+	{{#if messages.message-register}}
+		<div class="alert alert-success message-alert">
+			{{messages.message-register}}
+		</div>
+	{{/if}}	
 	<div class="dashboard">
 		<h2>Welcome {{instructor.first_name}}</h2>
 		<br>
@@ -69,7 +89,7 @@
 								<td>
 									<form action="/instructors/classes/{{class_id._id}}/delete" method="post">
 											<input type="hidden" name="_method" value="delete">
-											<button type="submit" class="btn btn-danger">Delete Class</button>
+											<button type="submit" class="btn btn-danger">Drop Class</button>
 									</form>
 								</td>
 							</tr>

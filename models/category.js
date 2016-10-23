@@ -7,11 +7,11 @@ var categorySchema = new Schema({
 	title: { type: String, required: true }
 });
 
-var Category = mongoose.model('Category', categorySchema);
+var Category = mongoose.model( 'Category', categorySchema );
 
 module.exports = Category;
 
 // Get all the categories
-module.exports.getCategories = function (callback) {
-	Category.find(callback);
+module.exports.getCategories = function( callback ) {
+	Category.find( callback );
 };

@@ -52,6 +52,15 @@ module.exports.dropClass = function(classInfo, callback){
     );
 }
 
+//Search if instructor is already registered for the class
+module.exports.searchForClass = function(classInfo, callback){
+
+	var class_id = classInfo['class_id']
+	var student_email = classInfo['student_email']
+
+	Student.findOne({'email': student_email, 'classes': {$elemMatch: {class_id: class_id}}}, callback)
+}
+
 //Remove deleted class
 module.exports.removeDeletedClass = function(classId, callback){
 

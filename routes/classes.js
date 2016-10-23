@@ -60,6 +60,7 @@ router.post('/', function(req, res){
 				console.log(err);
 				throw err
 			} else {
+
 				res.render('classes/new', {
 		        	user: user,
 		            errors: errors,
@@ -91,6 +92,7 @@ router.post('/', function(req, res){
 				Instructor.addClassToTeachingClasses(addedClass, instructorEmail,function(err, instructor){
 					if (err) throw err
 				});
+				req.flash('message-add', addedClass.title + " added successfully.");
 				res.redirect('/instructors/classes');
 			}
         })
@@ -153,6 +155,7 @@ router.post('/:id/edit', function(req, res, next){
 				throw err;
 			} else {
 				console.log('Class updated.');
+				req.flash('message-edit', classUpdates.title + " updated successfully.");
 				res.redirect('/instructors/classes');
 			}
 		})
@@ -198,6 +201,7 @@ router.post('/:id/delete', function(req, res, next){
 											throw err;	
 										} else {
 											console.log("Class deleted from Instructors that registered for it.")
+											req.flash('message-drop', deletedClass.title + " deleted successfully.");
 											res.redirect('/instructors/classes')
 										}
 									})
@@ -287,6 +291,7 @@ router.post('/:id/lessons', ensureAuthenticated, function(req, res, next) {
 						throw err
 					} else {		
 						console.log('Lesson added.')
+						req.flash('message-add', addedLesson.lesson_title + " added to " + foundClass.title + " successfully.");
 						res.redirect('/classes/'+ req.params.id +'/lessons')
 					}
 				})
@@ -368,6 +373,7 @@ router.post('/:id/lessons/:lesson_id/edit', function(req, res, next){
 				throw err;
 			} else {
 				console.log('Lesson updated.');
+				req.flash('message-edit', updatedLesson.lesson_title + " updated successfully.");
 				res.redirect('/classes/' + class_id + '/lessons');
 			}
 		})
@@ -389,12 +395,14 @@ router.post('/:id/lessons/:lesson_id/delete', function(req, res, next){
 		} else {
 			console.log('Lesson deleted.')
 			//Delete a lesson from classes.
-			Class.deleteLessonFromClass(lesson, function(err, deletedLesson){
+			Class.deleteLessonFromClass(lesson, function(err, deletedLessonFromClass){
 				if (err){
 					console.log(err);
 					throw err
 				} else {
 					console.log('Lesson deleted from class.')
+					console.log(deletedLessonFromClass)
+					req.flash('message-drop', lesson.lesson_title + " deleted successfully.");
 					res.redirect('/classes/' + lesson.creator_class + '/lessons')
 				}
 			})

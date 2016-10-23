@@ -6,8 +6,6 @@
 	padding-bottom: 20px;
 }
 
-
-
 .jumbotron{
 	color: white;
 	text-align: center;
@@ -96,9 +94,22 @@ form{
     width: 25%;
 }
 
+/*Alerts*/
+.message-alert{
+	font-size: medium;
+}
+
+/*Class Details Page*/
+.show-lessons{
+	width: 80%;
+	margin: auto;
+	border-left: 1px solid #337AB7;
+	border-right: 1px solid #337AB7;
+	border-bottom: 1px solid #337AB7;
+}
+
 
 /*Categories*/
-
 .all-categories{
 	text-align: center;
 }

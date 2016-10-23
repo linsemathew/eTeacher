@@ -24,14 +24,21 @@ router.post('/classes/:id/new', function(req, res){
 	classInfo['student_email'] = req.user.email; 
 	classInfo['class_id'] = req.params.id;
 
-	Student.registerForClass(classInfo, function(err, student){
-		if (err) {
-			throw err
-		} else {
+	Student.searchForClass(classInfo, function(err, foundClass){
+		if (foundClass){
+			req.flash('message-drop', "You are already registered for this class.")
 			res.redirect('/students/classes')
+		} else {
+			Student.registerForClass(classInfo, function(err, student){
+				if (err) {
+					throw err
+				} else {
+					req.flash('message-register', "Registered successfully.");
+					res.redirect('/students/classes')
+				}
+			})
 		}
-	});
-
+	})
 });
 
 //Drop registered class
@@ -47,6 +54,7 @@ router.post('/classes/:id/delete', function(req, res){
 			throw err;
 		} else {
 			console.log("Dropped class.")
+			req.flash('message-drop', "Class dropped successfully.");
 			res.redirect('/students/classes');
 		}
 	});
