@@ -45,6 +45,7 @@ router.post('/', function(req, res){
     var title           = req.body.title;
     var description     = req.body.description;
     var category        = req.body.category;
+    var user 			= req.user;
 
 	req.checkBody('title', 'Title is required.').notEmpty();
     req.checkBody('title', 'Please enter a shorter title.').len(0, 40);
@@ -54,11 +55,20 @@ router.post('/', function(req, res){
     var errors = req.validationErrors();
 
     if(errors){
-        res.render('classes/new', {
-            errors: errors,
-            title: title,
-            description: description,
-        });
+    	Category.getCategories(function(err, categories){
+			if (err){
+				console.log(err);
+				throw err
+			} else {
+				res.render('classes/new', {
+		        	user: user,
+		            errors: errors,
+		            title: title,
+		            description: description,
+		            categories: categories
+				})
+			}
+		})
     } else {
 
         var newClass = {
@@ -107,7 +117,7 @@ router.get('/:id/edit', ensureAuthenticated, function(req, res, next) {
 		if (err){
 			throw err
 		} else {
-			res.render('classes/editclass', {title: foundClass.title, description: foundClass.description, class_id: foundClass._id})
+			res.render('classes/edit', {title: foundClass.title, description: foundClass.description, class_id: foundClass._id})
 		}
 	})
 })
@@ -118,7 +128,8 @@ router.post('/:id/edit', function(req, res, next){
 	var classUpdates                = []; 
 	classUpdates['title']           = req.body.title;
     classUpdates['description']     = req.body.description;
-    classUpdates['classId']         = req.user.id;
+    classUpdates['classId']         = req.params.id;
+    classUpdates['user']         	= req.user
 
    	req.checkBody('title', 'Title is required.').notEmpty();
     req.checkBody('title', 'Please enter a shorter title.').len(0, 40);
@@ -128,7 +139,8 @@ router.post('/:id/edit', function(req, res, next){
     var errors = req.validationErrors(); 
     console.log(classUpdates)
     if (errors){
-    	res.render('classes/editclass', {
+    	res.render('classes/edit', {
+    		user: classUpdates['user'],
             errors: errors,
             class_id: classUpdates['classId'],
             title: classUpdates['title'],
@@ -149,6 +161,9 @@ router.post('/:id/edit', function(req, res, next){
 
 //Delete a class
 router.post('/:id/delete', function(req, res, next){
+
+	var instructor_id 		= req.user._id
+
 	Class.deleteClass(req.params.id, function(err, deletedClass){
 		if (err){
 			console.log(err);
@@ -207,7 +222,7 @@ router.get('/:id/lessons', function(req, res, next) {
 				var instructor = true
 			}
 			console.log(classLesson)
-			res.render('classes/lessons', {"class": classLesson, "instructor": instructor})
+			res.render('lessons/index', {"class": classLesson, "instructor": instructor})
 		}
 	});
 });
@@ -220,19 +235,20 @@ router.get('/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
 			console.log(err)
 			throw err
 		} else {
-			res.render('classes/newlesson', {class_id: req.params.id})
+			res.render('lessons/new', {class_id: req.params.id})
 		}
 	}) 
 });
 
 //Add a new lesson
-router.post('/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
+router.post('/:id/lessons', ensureAuthenticated, function(req, res, next) {
 
 	var instructor_email  = req.user.email;
 	var class_id          = req.params.id;
 	var lesson_title      = req.body.lesson_title;
 	var lesson_body       = req.body.lesson_body;
-	var creator_class     = req.params.id
+	var creator_class     = req.params.id;
+	var user     		  = req.user;
 
 	req.checkBody('lesson_title', 'Title is required.').notEmpty();
     req.checkBody('lesson_title', 'Please enter a shorter title.').len(0, 40);
@@ -242,7 +258,8 @@ router.post('/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
     var errors = req.validationErrors();
 
     if(errors){
-        res.render('classes/newlesson', {
+        res.render('lessons/new', {
+        	user: user,
             errors: errors,
             class_id: class_id,
             lesson_title: lesson_title,
@@ -278,17 +295,36 @@ router.post('/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
 	}
 })
 
-//Get update lesson form
-router.get('/:id/lessons/:lesson_id/edit', ensureAuthenticated, function(req, res, next) {
-
-	Lesson.getLessonById([req.params.lesson_id], function(err, foundLesson){
+//Display a single lesson
+router.get('/:id/lessons/:lesson_id', function(req, res, next) {
+	Lesson.getLessonById([req.params.lesson_id], function(err, lesson){
 		if (err){
 			console.log(err)
 			throw err
 		} else {
-			res.render('classes/editlesson', {
-				class_id: req.params.id, 
-				lesson_id: req.params.lesson_id, 
+			console.log(lesson)
+			res.render('lessons/show', {"lesson": lesson})
+		}
+	});
+});
+
+//Get update lesson form
+router.get('/:id/lessons/:lesson_id/edit', ensureAuthenticated, function(req, res, next) {
+
+	var class_id 		= req.params.id;
+	var lesson_id 		= req.params.lesson_id;
+	var user 			= req.user
+
+
+	Lesson.getLessonById(lesson_id, function(err, foundLesson){
+		if (err){
+			console.log(err)
+			throw err
+		} else {
+			res.render('lessons/edit', {
+				user: user,
+				class_id: class_id, 
+				lesson_id: lesson_id, 
 				lesson_title: foundLesson.lesson_title, 
 				lesson_body: foundLesson.lesson_body
 			})
@@ -302,6 +338,10 @@ router.post('/:id/lessons/:lesson_id/edit', function(req, res, next){
 	var lessonUpdates                = []; 
 	lessonUpdates['title']           = req.body.lesson_title;
     lessonUpdates['body']            = req.body.lesson_body;
+    var user 					     = req.user;
+    var lesson_id					 = req.params.lesson_id;
+    var class_id                     = req.params.id
+
 
    	req.checkBody('lesson_title', 'Title is required.').notEmpty();
     req.checkBody('lesson_title', 'Please enter a shorter title.').len(0, 40);
@@ -313,21 +353,22 @@ router.post('/:id/lessons/:lesson_id/edit', function(req, res, next){
     console.log(lessonUpdates)
 
     if (errors){
-    	res.render('classes/editlesson', {
+    	res.render('lessons/edit', {
+    		user: user,
             errors: errors,
-            lesson_id: req.params.lesson_id, 
-            class_id: req.params.id,
+            lesson_id: lesson_id,
+            class_id: class_id,
             lesson_title: lessonUpdates['title'],
             lesson_body: lessonUpdates['body']
         })
     } else {
-		Lesson.updateLesson([req.params.lesson_id], lessonUpdates, function(err, updatedLesson){
+		Lesson.updateLesson(lesson_id, lessonUpdates, function(err, updatedLesson){
 			if(err){
 				console.log(err)
 				throw err;
 			} else {
 				console.log('Lesson updated.');
-				res.redirect('/classes/' + req.params.id + '/lessons');
+				res.redirect('/classes/' + class_id + '/lessons');
 			}
 		})
 	}
@@ -339,6 +380,7 @@ router.post('/:id/lessons/:lesson_id/delete', function(req, res, next){
 	var lesson 					= [];
 	lesson['lesson_id'] 		= req.params.lesson_id;
 	lesson['class_id'] 			= req.params.id;
+	var instructor_id 			= req.user._id;
 	
 	Lesson.deleteLesson(lesson, function(err, lesson){
 		if (err){
@@ -347,13 +389,13 @@ router.post('/:id/lessons/:lesson_id/delete', function(req, res, next){
 		} else {
 			console.log('Lesson deleted.')
 			//Delete a lesson from classes.
-			Class.deleteLessonFromClass(lesson, function(err, callback){
+			Class.deleteLessonFromClass(lesson, function(err, deletedLesson){
 				if (err){
 					console.log(err);
 					throw err
 				} else {
 					console.log('Lesson deleted from class.')
-					res.redirect('/instructors/classes')
+					res.redirect('/classes/' + lesson.creator_class + '/lessons')
 				}
 			})
 		}

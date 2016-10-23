@@ -4,7 +4,7 @@
         <div class="panel-heading">
             <h2 class="form-title">New Lesson</h2>
         </div>
-        <form class="signup-form" method="post" action="/classes/{{class_id}}/lessons/new">
+        <form class="signup-form" method="post" action="/classes/{{class_id}}/lessons">
             {{#if errors}}
                 {{#each errors}}
                     <div class="alert alert-danger">

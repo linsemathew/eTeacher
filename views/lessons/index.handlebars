@@ -21,7 +21,7 @@
 						{{#each class.lessons}}
 							<tr class="active">
 								<td>{{lesson_title}}</td>
-								<td><a href="/lessons/{{_id}}"><button type="button" class="btn btn-success">View Lesson</button></a></td>
+								<td><a href="/classes/{{../class._id}}/lessons/{{_id}}"><button type="button" class="btn btn-success">View Lesson</button></a></td>
 								{{#if ../instructor}}
 									<td><a href="/classes/{{../class._id}}/lessons/{{_id}}/edit"><button type="button" class="btn btn-warning">Edit Lesson</button></a></td>
 									<td>  
@@ -33,6 +33,15 @@
 								{{/if}}
 							</tr>
 						{{/each}}
+					{{else}}
+						<td>
+							<p>No lessons currently.</p>
+						</td>
+						<td></td>
+						{{#if instructor}}
+							<td></td>
+							<td></td>
+						{{/if}}
 					{{/if}}
 					{{#if instructor}}
 						<tr class="active">

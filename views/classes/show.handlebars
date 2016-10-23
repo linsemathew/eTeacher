@@ -13,11 +13,11 @@
 		</h4>
 		<div class="panel-body">
 			{{#if user}}
-				<form id="regForm" method="post" action="/{{type}}s/classes/{{class._id}}/register">
+				<form id="regForm" method="post" action="/{{type}}s/classes/{{class._id}}/new">
 					<button type="submit" class="btn btn-lg btn-primary">Register</button>
 				</form>
 			{{else}}
-				<p><em>Please <a href="/users/login">login</a> or <a href="/users/signup">signup</a> to register for this class<em></p>
+				<p><em>Please <a href="/users/login">login</a> or <a href="/users/new">signup</a> to register for this class<em></p>
 			{{/if}}
 		</div>
 		{{#if class.lessons}}
