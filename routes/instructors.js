@@ -19,7 +19,7 @@ router.get('/classes', ensureAuthenticated, function(req, res, next) {
 
 
 //Register Instructor as a student for a class
-router.post('/classes/:id/new', function(req, res){
+router.post('/classes/:id/new', ensureAuthenticated, function(req, res){
 	classInfo 						= [];
 	classInfo['instructor_email']   = req.user.email; 
 	classInfo['class_id'] 			= req.params.id;
@@ -44,7 +44,7 @@ router.post('/classes/:id/new', function(req, res){
 });
 
 //Drop registered class
-router.post('/classes/:id/delete', function(req, res){
+router.post('/classes/:id/delete', ensureAuthenticated, function(req, res){
 
 	classInfo 							= [];
 	classInfo['instructor_email']   	= req.user.email;

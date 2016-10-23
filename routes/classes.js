@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 // Get a new class form
-router.get('/new', function(req, res, next) {
+router.get('/new', ensureAuthenticated, function(req, res, next) {
 	var user = req.user.type
 
 	if (user && user == 'instructor'){
@@ -36,7 +36,7 @@ router.get('/new', function(req, res, next) {
 });
 
 // Create a new class 
-router.post('/', function(req, res){
+router.post('/', ensureAuthenticated, function(req, res){
 
 	var instructor_id   = req.user._id
 	var instructorEmail = req.user.email;
@@ -119,13 +119,18 @@ router.get('/:id/edit', ensureAuthenticated, function(req, res, next) {
 		if (err){
 			throw err
 		} else {
-			res.render('classes/edit', {title: foundClass.title, description: foundClass.description, class_id: foundClass._id})
+			if (req.user && req.user.email == foundClass.instructor_email){
+				res.render('classes/edit', {title: foundClass.title, description: foundClass.description, class_id: foundClass._id})
+			} else {
+				res.redirect('/');
+			}
+
 		}
 	})
 })
 
 //Update a class
-router.post('/:id/edit', function(req, res, next){
+router.post('/:id/edit', ensureAuthenticated, function(req, res, next){
 
 	var classUpdates                = []; 
 	classUpdates['title']           = req.body.title;
@@ -163,7 +168,7 @@ router.post('/:id/edit', function(req, res, next){
 })
 
 //Delete a class
-router.post('/:id/delete', function(req, res, next){
+router.post('/:id/delete', ensureAuthenticated, function(req, res, next){
 
 	var instructor_id 		= req.user._id
 
@@ -234,12 +239,16 @@ router.get('/:id/lessons', function(req, res, next) {
 //Get new lesson form
 router.get('/:id/lessons/new', ensureAuthenticated, function(req, res, next) {
 
-	Class.getClassesById([req.params.id], function(err, name){
+	Class.getClassesById([req.params.id], function(err, foundClass){
 		if (err){
 			console.log(err)
 			throw err
 		} else {
-			res.render('lessons/new', {class_id: req.params.id})
+			if (req.user && req.user.email == foundClass.instructor_email){
+				res.render('lessons/new', {class_id: req.params.id})
+			} else {
+				res.redirect('/');
+			}
 		}
 	}) 
 });
@@ -326,19 +335,23 @@ router.get('/:id/lessons/:lesson_id/edit', ensureAuthenticated, function(req, re
 			console.log(err)
 			throw err
 		} else {
-			res.render('lessons/edit', {
-				user: user,
-				class_id: class_id, 
-				lesson_id: lesson_id, 
-				lesson_title: foundLesson.lesson_title, 
-				lesson_body: foundLesson.lesson_body
-			})
+			if (req.user && req.user.email == foundLesson.instructor_email){
+				res.render('lessons/edit', {
+					user: user,
+					class_id: class_id, 
+					lesson_id: lesson_id, 
+					lesson_title: foundLesson.lesson_title, 
+					lesson_body: foundLesson.lesson_body
+				})
+			} else {
+				res.redirect('/')
+			}
 		}
 	}) 
 });
 
 //Update a lesson
-router.post('/:id/lessons/:lesson_id/edit', function(req, res, next){
+router.post('/:id/lessons/:lesson_id/edit', ensureAuthenticated, function(req, res, next){
 
 	var lessonUpdates                = []; 
 	lessonUpdates['title']           = req.body.lesson_title;
@@ -381,7 +394,7 @@ router.post('/:id/lessons/:lesson_id/edit', function(req, res, next){
 })
 
 //Delete a lesson
-router.post('/:id/lessons/:lesson_id/delete', function(req, res, next){
+router.post('/:id/lessons/:lesson_id/delete', ensureAuthenticated, function(req, res, next){
 
 	var lesson 					= [];
 	lesson['lesson_id'] 		= req.params.lesson_id;

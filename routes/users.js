@@ -7,6 +7,7 @@ var User = require('../models/user');
 var Student = require('../models/student');
 var Instructor= require('../models/instructor');
 
+//Get signup form
 router.get('/new', function(req, res, next) {
     if (!req.user){
         res.render('users/new');
@@ -15,6 +16,7 @@ router.get('/new', function(req, res, next) {
     } 
 });
 
+//Register a new user
 router.post('/new', function(req, res, next){
 
     var first_name      = req.body.first_name;
