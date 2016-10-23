@@ -23,7 +23,10 @@ router.post('/new', function(req, res, next){
     var password        = req.body.password;
     var password2       = req.body.password2;
     var type            = req.body.type;
+    var student
+    var instructor
 
+    req.checkBody('type', 'Account type is required.').notEmpty();
     req.checkBody('first_name', 'First name is required.').notEmpty();
     req.checkBody('first_name', 'Please enter a shorter first name.').len(0, 40);
     req.checkBody('last_name', 'Last name is required.').notEmpty();
@@ -35,6 +38,12 @@ router.post('/new', function(req, res, next){
     req.checkBody('password2', 'Passwords must match.').equals(req.body.password);
     req.checkBody('password', 'Please choose a password between 6 to 50 characters.').len(6, 50);
 
+    if (type == 'student'){
+        student = 'checked'
+    } else if (type == 'instructor') {
+        instructor = 'checked'
+    }
+
     var errors = req.validationErrors();
     console.log(errors)
     if(errors){
@@ -45,7 +54,8 @@ router.post('/new', function(req, res, next){
             email: email,
             password: password,
             password2: password2,
-            type: type
+            student: student,
+            instructor: instructor
         });
     } else {
 
@@ -60,7 +70,8 @@ router.post('/new', function(req, res, next){
                     email: email,
                     password: password,
                     password2: password2,
-                    type: type
+                    student: student,
+                    instructor: instructor
                 });
             } else {
 
