@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var express         = require('express');
+var router          = express.Router();
+var passport        = require('passport');
+var LocalStrategy   = require('passport-local').Strategy;
 
-var User = require('../models/user');
-var Student = require('../models/student');
-var Instructor= require('../models/instructor');
+var User        = require('../models/user');
+var Student     = require('../models/student');
+var Instructor  = require('../models/instructor');
 
 //Get signup form
 router.get('/new', function(req, res, next) {
@@ -47,7 +47,7 @@ router.post('/new', function(req, res, next){
     }
 
     var errors = req.validationErrors();
-    console.log(errors)
+
     if(errors){
         res.render('users/new', {
             errors: errors,
@@ -60,7 +60,7 @@ router.post('/new', function(req, res, next){
             instructor: instructor
         });
     } else {
-
+        //Check if email is already registered.
         User.getUserByEmail(email, function(err, user){
             if (user){
                 res.render('users/new', {
@@ -125,6 +125,7 @@ router.post('/new', function(req, res, next){
     }
 });
 
+//Get login page
 router.get('/login', function(req, res, next){
     if (!req.user){
         res.render('users/login');
@@ -133,11 +134,12 @@ router.get('/login', function(req, res, next){
     } 
 });
 
+//Manage session
 passport.serializeUser(function(user, done) {
     done(null, user._id);
 });
 
-
+//Manage session
 passport.deserializeUser(function(id, done) {
     User.getUserById(id, function (err, user) {
         done(err, user);

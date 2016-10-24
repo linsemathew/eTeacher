@@ -1,29 +1,31 @@
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
 
-Class = require('../models/class');
-User = require('../models/user');
+Class  = require('../models/class');
+User   = require('../models/user');
 Lesson = require('../models/lesson');
 
-//Get Instructor's classes
+//Get instructor's classes
 router.get('/classes', ensureAuthenticated, function(req, res, next) {
 	Instructor.getInstructorByEmail(req.user.email, function(err, instructor){
 		if (err){
 			console.log(err);
 			throw err;
 		} else {
+			console.los('Instructor found.')
 			res.render('instructors/index', {"instructor": instructor})
 		}
 	});
 });
 
-
 //Register Instructor as a student for a class
 router.post('/classes/:id/new', ensureAuthenticated, function(req, res){
+
 	classInfo 						= [];
 	classInfo['instructor_email']   = req.user.email; 
 	classInfo['class_id'] 			= req.params.id;
 
+	//Check if instructor is already registered for the class.
 	Instructor.searchForClass(classInfo, function(err, foundClass){
 		if (foundClass){
 			req.flash('message-drop', "You are already registered for this class.")
@@ -63,7 +65,7 @@ router.post('/classes/:id/delete', ensureAuthenticated, function(req, res){
 	});
 });
 
-
+//Protect routes against users that aren't logged in.
 function ensureAuthenticated(req, res, next){
     if (req.isAuthenticated()){
         return next();
