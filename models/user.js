@@ -22,6 +22,7 @@ module.exports.getUserById = function(id, callback){
 //Get a User by email
 module.exports.getUserByEmail = function(email, callback){
 	var query = {email : email}
+
 	User.findOne(query, callback);
 }
 
@@ -31,7 +32,7 @@ module.exports.saveStudent = function(newUser, newStudent, callback){
 		bcrypt.hash(newUser.password, salt, function(err, hash){
 			if (err) {throw err}
 			newUser.password = hash;
-			//Saves both a user and student
+			//Save both a user and student
 			async.parallel([newUser.save, newStudent.save], callback);
 		})
 	})
@@ -43,13 +44,13 @@ module.exports.saveInstructor = function(newUser, newInstructor, callback){
 		bcrypt.hash(newUser.password, salt, function(err, hash){
 			if (err) {throw err}
 			newUser.password = hash;
-			//Saves both a user and instructor
+			//Save both a user and instructor
 			async.parallel([newUser.save, newInstructor.save], callback);
 		})
 	})
 }
 
-//Checks if password matches.
+//Check if password and password confirmation matches.
 module.exports.comparePassword = function(enteredPassword, hash, callback){
 	bcrypt.compare(enteredPassword, hash, function(err, isMatch){
 		if(err) throw err;

@@ -69,7 +69,6 @@ app.use(expressValidator({
 app.use(flash());
 
 app.use(function (req, res, next) {
-
   if(req.url == '/'){
     res.locals.isHome = true;
   }
