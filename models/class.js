@@ -46,10 +46,9 @@ module.exports.createNewClass = function(newClassProperties, callback){
 
 // Update a class
 module.exports.updateClass = function(classID, classUpdates, callback){
-	var title = classUpdates['title']
+	var title 		= classUpdates['title']
 	var description = classUpdates['description']
-
-	var query = {_id: classID}
+	var query 		= {_id: classID}
 
 	Class.findOneAndUpdate(
 		query, 

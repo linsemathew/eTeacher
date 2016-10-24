@@ -12,7 +12,7 @@ router.get('/classes', ensureAuthenticated, function(req, res, next) {
 			console.log(err);
 			throw err;
 		} else {
-			console.los('Instructor found.')
+			console.log('Instructor found.')
 			res.render('instructors/index', {"instructor": instructor})
 		}
 	});

@@ -53,7 +53,7 @@ router.post('/', ensureAuthenticated, function(req, res){
 	req.checkBody('title', 'Title is required.').notEmpty();
     req.checkBody('title', 'Please enter a shorter title.').len(0, 40);
     req.checkBody('description', 'Description is required.').notEmpty();
-    req.checkBody('description', 'Please enter a shorter description.').len(0, 100);
+    req.checkBody('description', 'Please enter a shorter description.').len(0, 300);
 
     var errors = req.validationErrors();
 
@@ -140,7 +140,7 @@ router.post('/:id/edit', ensureAuthenticated, function(req, res, next){
    	req.checkBody('title', 'Title is required.').notEmpty();
     req.checkBody('title', 'Please enter a shorter title.').len(0, 40);
     req.checkBody('description', 'Description is required.').notEmpty();
-    req.checkBody('description', 'Please enter a shorter description.').len(0, 100);
+    req.checkBody('description', 'Please enter a shorter description.').len(0, 300);
 
     var errors = req.validationErrors(); 
 
@@ -363,7 +363,7 @@ router.post('/:id/lessons/:lesson_id/edit', ensureAuthenticated, function(req, r
    	req.checkBody('lesson_title', 'Title is required.').notEmpty();
     req.checkBody('lesson_title', 'Please enter a shorter title.').len(0, 40);
     req.checkBody('lesson_body', 'Lesson body is required.').notEmpty();
-    req.checkBody('lesson_body', 'Please enter a shorter lesson.').len(0, 400);
+    req.checkBody('lesson_body', 'Please enter a shorter lesson.').len(0, 2000);
 
     var errors = req.validationErrors(); 
 
