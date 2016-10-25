@@ -1,11 +1,11 @@
-var express         = require('express');
-var router          = express.Router();
-var passport        = require('passport');
-var LocalStrategy   = require('passport-local').Strategy;
+var express = require('express');
+var router = express.Router();
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
-var User        = require('../models/user');
-var Student     = require('../models/student');
-var Instructor  = require('../models/instructor');
+var User = require('../models/user');
+var Student = require('../models/student');
+var Instructor = require('../models/instructor');
 
 //Get signup form
 router.get('/new', function(req, res, next) {
@@ -19,14 +19,14 @@ router.get('/new', function(req, res, next) {
 //Register a new user
 router.post('/new', function(req, res, next){
 
-    var first_name      = req.body.first_name;
-    var last_name       = req.body.last_name;
-    var email           = req.body.email;
-    var password        = req.body.password;
-    var password2       = req.body.password2;
-    var type            = req.body.type;
-    var student
-    var instructor
+    var first_name = req.body.first_name;
+    var last_name = req.body.last_name;
+    var email = req.body.email;
+    var password = req.body.password;
+    var password2 = req.body.password2;
+    var type = req.body.type;
+    var student;
+    var instructor;
 
     req.checkBody('type', 'Account type is required.').notEmpty();
     req.checkBody('first_name', 'First name is required.').notEmpty();
@@ -41,9 +41,9 @@ router.post('/new', function(req, res, next){
     req.checkBody('password', 'Please choose a password between 6 to 50 characters.').len(6, 50);
 
     if (type == 'student'){
-        student = 'checked'
+        student = 'checked';
     } else if (type == 'instructor') {
-        instructor = 'checked'
+        instructor = 'checked';
     }
 
     var errors = req.validationErrors();
@@ -161,13 +161,11 @@ passport.use('local-login', new LocalStrategy({
     usernameField: 'email'
     },
     function(email, password, done) {
-
         User.getUserByEmail(email, function(err, user){
             if (err) throw err;
             if(!user){ 
                 return done(null, false);
             }
-
             User.comparePassword(password, user.password, function(err, isMatch) {
                 if (err) return done(err);
                 if(isMatch) {

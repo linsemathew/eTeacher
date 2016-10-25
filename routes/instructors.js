@@ -12,15 +12,14 @@ router.get('/classes', ensureAuthenticated, function(req, res, next) {
 			console.log(err);
 			throw err;
 		} else {
-			console.log('Instructor found.')
-			res.render('instructors/index', {"instructor": instructor})
+			console.log('Instructor found.');
+			res.render('instructors/index', {"instructor": instructor});
 		}
 	});
 });
 
 //Register Instructor as a student for a class
 router.post('/classes/:id/new', ensureAuthenticated, function(req, res){
-
 	classInfo 						= [];
 	classInfo['instructor_email']   = req.user.email; 
 	classInfo['class_id'] 			= req.params.id;
@@ -28,26 +27,25 @@ router.post('/classes/:id/new', ensureAuthenticated, function(req, res){
 	//Check if instructor is already registered for the class.
 	Instructor.searchForClass(classInfo, function(err, foundClass){
 		if (foundClass){
-			req.flash('message-drop', "You are already registered for this class.")
-			res.redirect('/instructors/classes')
+			req.flash('message-drop', "You are already registered for this class.");
+			res.redirect('/instructors/classes');
 		} else {
 			Instructor.registerForClass(classInfo, function(err, instructor){
 				if (err) {
-					console.log(err)
+					console.log(err);
 					throw err;
 				} else {
 					console.log("Successfully registered");
 					req.flash('message-register', "Registered successfully.");
 					res.redirect('/instructors/classes');
 				}
-			})
+			});
 		}
-	})
+	});
 });
 
 //Drop registered class
 router.post('/classes/:id/delete', ensureAuthenticated, function(req, res){
-
 	classInfo 							= [];
 	classInfo['instructor_email']   	= req.user.email;
 	classInfo['class_id'] 				= req.params.id;
@@ -55,10 +53,10 @@ router.post('/classes/:id/delete', ensureAuthenticated, function(req, res){
 
 	Instructor.dropClass(classInfo, function(err, instructor){
 		if (err) {
-			console.log(err)
+			console.log(err);
 			throw err;
 		} else {
-			console.log("Dropped class.")
+			console.log("Dropped class.");
 			req.flash('message-drop', "Class dropped successfully.");
 			res.redirect('/instructors/classes');
 		}
@@ -70,8 +68,8 @@ function ensureAuthenticated(req, res, next){
     if (req.isAuthenticated()){
         return next();
     } else {
-        res.redirect('/users/login')
+        res.redirect('/users/login');
     }
-}
+};
 
-module.exports = router
+module.exports = router;

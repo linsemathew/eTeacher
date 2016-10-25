@@ -1,3 +1,4 @@
+/*Content*/
 .container{
 	min-width: 270px;
 }
@@ -6,6 +7,7 @@
 	padding-bottom: 20px;
 }
 
+/*Jumbotron*/
 .jumbotron{
 	color: white;
 	text-align: center;
@@ -21,11 +23,13 @@
 	text-shadow: 1px 1px #000;
 }
 
+/*Buttons*/
 .btn{
 	white-space:normal !important;
 	/*border: .05px solid black;*/
 }
 
+/*Listing Classes*/
 .col-md-4{
 	margin-top: 30px;
 	border: 5px solid white;
@@ -37,6 +41,19 @@
     text-shadow: 1px 1px #000;
 }
 
+.all-classes{
+	text-align: center;
+}
+
+.new-tag{
+	position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 30%;
+    width: 25%;
+}
+
+/*Dashboard*/
 .owl{
 	height: 25%;
 	width: 25%;
@@ -50,48 +67,35 @@
     white-space: nowrap;
 }
 
+.table-heading{
+	text-shadow: 1px 1px #000;
+}
+
+/*Forms*/
 #entire-form{
 	width: 80%;
 	margin: auto;
 }
 
-div.panel-heading{
-	background-color: black;
+.form-title{
+	text-align: center;
 }
 
 .signup-form{
 	padding: 15px;
 }
 
+form{
+	font-size: medium;
+}
+
+/*Navbar*/
 .navbar-brand.title{
 	font-size: 25px;
 }
 
 .login-option{
   font-size: large;
-}
-
-.instead, .alert, .dashboard, th, .submit-button, .new-classes, .form-title, .all-classes, .class-title, .details-text{
-	text-align: center;
-}
-
-.table-heading{
-	text-shadow: 1px 1px #000;
-}
-
-th, td {
-	font-size: medium;
-}
-
-form{
-	font-size: medium;
-}
-.new-tag{
-	position: absolute;
-    left: 0px;
-    top: 0px;
-    height: 30%;
-    width: 25%;
 }
 
 /*Alerts*/
@@ -108,12 +112,34 @@ form{
 	border-bottom: 1px solid #337AB7;
 }
 
+.class-title{
+	text-align: center;
+}
+
 /*Lesson Details*/
 .lesson-text{
 	font-size: medium;
 }
 
+.details-text{
+	text-align: center;
+}
+
 /*Categories*/
 .all-categories{
 	text-align: center;
+}
+
+/*Miscellaneous */
+div.panel-heading{
+	background-color: black;
+}
+
+
+.instead, .alert, .dashboard, th, .submit-button, .new-classes {
+	text-align: center;
+}
+
+th, td {
+	font-size: medium;
 }
